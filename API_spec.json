@@ -104,7 +104,7 @@
     },
     {
         "method": "PUT",
-        "url": "/api/user",
+        "url": "/api/user/job_seeker",
         "description": "Update user's profile",
         "request": {
             "description": "Body contains user fields",
@@ -112,41 +112,66 @@
                 "Authorization": "Bearer [token]"
             },
             "Body": {
-                "user_is_job_seeker": {
-                    "full_name": "full_name",
-                    "email": "email",
-                    "phone": "phone",
-                    "gender": "gender",
-                    "brief_description": "brief_description",
-                    "skills": [
-                        "skill1",
-                        "skill2",
-                        "skill3"
-                    ],
-                    "resume_link": "resume_link",
-                    "user_role": "job_seeker",
-                    "job_type_preference": "job_type_preference",
-                    "expected_salary": "expected_salary",
-                    "year_of_graduation": "year_of_graduation",
-                    "degree": "degree",
-                    "major": "major"
-                },
-                "user_is_recruiter": {
-                    "full_name": "full_name",
-                    "email": "email",
-                    "phone": "phone",
-                    "user_role": "job_poster",
-                    "gender": "gender",
-                    "company_name": "company_name",
-                    "position": "position",
-                    "linkedIn_url": "linkedIn_url"
-                }
+                "full_name": "full_name",
+                "email": "email",
+                "phone": "phone",
+                "gender": "gender",
+                "brief_description": "brief_description",
+                "skills": [
+                    "skill1",
+                    "skill2",
+                    "skill3"
+                ],
+                "resume_link": "resume_link",
+                "user_role": "job_seeker",
+                "job_type_preference": "job_type_preference",
+                "expected_salary": "expected_salary",
+                "year_of_graduation": "year_of_graduation",
+                "degree": "degree",
+                "major": "major"
+            }
+        },
+        "response": {
+            "if_unauthorised": {
+                "status": 401
+            },
+            "if_successful": {
+                "status": 200
+            }
+        }
+    },
+    {
+        "method": "PUT",
+        "url": "/api/user/job_poster",
+        "description": "Update user's profile",
+        "request": {
+            "description": "Body contains user fields",
+            "Headers": {
+                "Authorization": "Bearer [token]"
+            },
+            "Body": {
+                "full_name": "full_name",
+                "email": "email",
+                "phone": "phone",
+                "user_role": "job_poster",
+                "gender": "gender",
+                "company_name": "company_name",
+                "position": "position",
+                "linkedIn_url": "linkedIn_url"
+            }
+        },
+        "response": {
+            "if_unauthorised": {
+                "status": 401
+            },
+            "if_successful": {
+                "status": 200
             }
         }
     },
     {
         "method": "GET",
-        "url": "/api/jobs",
+        "url": "/api/job_seeker/jobs",
         "request": {
             "Headers": {
                 "Authorization": "Bearer [token]"
@@ -155,6 +180,9 @@
         "response": {
             "if_unauthorised": {
                 "status": 401
+            },
+            "user_not_job_seeker": {
+                "status": 400
             },
             "if_successful": {
                 "Description": {
@@ -170,6 +198,51 @@
                             "company_name",
                             "relevant_link"
                         ]
+                    }
+                },
+                "status": 200,
+                "Body": [
+                    "array",
+                    "of",
+                    "job_objects"
+                ]
+            }
+        }
+    },
+    {
+        "method": "GET",
+        "url": "/api/job_poster/jobs",
+        "request": {
+            "Headers": {
+                "Authorization": "Bearer [token]"
+            }
+        },
+        "response": {
+            "if_unauthorised": {
+                "status": 401
+            },
+            "user_not_job_poster": {
+                "status": 400
+            },
+            "if_successful": {
+                "Description": {
+                    "requirement": "Returns a list of all jobs posted by the job_poster",
+                    "job_object": {
+                        "job_id": "job_id",
+                        "job_title": "job_title",
+                        "job_description": "job_description",
+                        "job_poster": "job_poster",
+                        "job_vacancy": "job_vacancy",
+                        "job_location": "job_location",
+                        "job_salary": "job_salary",
+                        "job_type": "job_type",
+                        "job_date_posted": "job_date_posted",
+                        "job_deadline": "dd/mm/yyyy",
+                        "company": [
+                            "company_name",
+                            "relevant_link"
+                        ],
+                        "total_applications": "total_applications"
                     }
                 },
                 "status": 200,
@@ -247,7 +320,7 @@
     },
     {
         "method": "GET",
-        "url": "/api/application",
+        "url": "/api/application/:username",
         "request": {
             "Headers": {
                 "Authorization": "Bearer [token]"
@@ -256,6 +329,9 @@
         "response": {
             "if_unauthorised": {
                 "status": 401
+            },
+            "user_not_job_seeker": {
+                "status": 400
             },
             "if_successful": {
                 "Description": {
@@ -280,6 +356,130 @@
                     "of",
                     "application_objects"
                 ]
+            }
+        }
+    },
+    {
+        "method": "DELETE",
+        "url": "/api/application/:application_id",
+        "request": {
+            "Headers": {
+                "Authorization": "Bearer [token]"
+            }
+        },
+        "response": {
+            "if_unauthorised": {
+                "status": 401
+            },
+            "user_not_job_seeker": {
+                "status": 400
+            },
+            "if_successful": {
+                "status": 204
+            }
+        }
+    },
+    {
+        "method": "POST",
+        "url": "/api/jobs",
+        "request": {
+            "Headers": {
+                "Authorization": "Bearer [token]"
+            },
+            "Body": {
+                "job_id": "job_id",
+                "job_title": "job_title",
+                "job_description": "job_description",
+                "job_poster": "job_poster",
+                "job_vacancy": "job_vacancy",
+                "job_location": "job_location",
+                "job_salary": "job_salary",
+                "job_type": "job_type",
+                "job_date_posted": "job_date_posted",
+                "job_deadline": "dd/mm/yyyy",
+                "company": [
+                    "company_name",
+                    "relevant_link"
+                ]
+            }
+        },
+        "response": {
+            "if_unauthorised": {
+                "status": 401
+            },
+            "user_not_job_poster": {
+                "status": 400
+            },
+            "if_successful": {
+                "status": 201
+            }
+        }
+    },
+    {
+        "method": "GET",
+        "url": "/api/application?job_id=job_id",
+        "request": {
+            "Headers": {
+                "Authorization": "Bearer [token]"
+            }
+        },
+        "response": {
+            "if_unauthorised": {
+                "status": 401
+            },
+            "user_not_job_poster": {
+                "status": 400
+            },
+            "if_successful": {
+                "Description": {
+                    "requirement": "Returns a list of all applications made for the job with the specified job_id",
+                    "application_object": {
+                        "username": "username",
+                        "full_name": "full_name",
+                        "email": "email",
+                        "phone": "phone",
+                        "gender": "gender",
+                        "brief_description": "brief_description",
+                        "skills": [
+                            "skill1",
+                            "skill2",
+                            "skill3"
+                        ],
+                        "resume_link": "resume_link",
+                        "job_type_preference": "job_type_preference",
+                        "expected_salary": "expected_salary",
+                        "year_of_graduation": "year_of_graduation",
+                        "degree": "degree",
+                        "major": "major",
+                        "application_date": "application_date"
+                    }
+                },
+                "status": 200,
+                "Body": [
+                    "array",
+                    "of",
+                    "application_objects"
+                ]
+            }
+        }
+    },
+    {
+        "method": "DELETE",
+        "url": "/api/jobs/:job_id",
+        "request": {
+            "Headers": {
+                "Authorization": "Bearer [token]"
+            }
+        },
+        "response": {
+            "if_unauthorised": {
+                "status": 401
+            },
+            "user_not_job_poster": {
+                "status": 400
+            },
+            "if_successful": {
+                "status": 204
             }
         }
     }
