@@ -1,0 +1,286 @@
+[
+    {
+        "method": "POST",
+        "url": "/api/auth/register",
+        "request": {
+            "Body": {
+                "username": "username",
+                "password": "password",
+                "full_name": "full_name",
+                "email": "email",
+                "phone": "phone",
+                "gender": "gender",
+                "user_role": "user_role"
+            }
+        },
+        "response": {
+            "if_user_already_exists": {
+                "status": 400
+            },
+            "if_successful": {
+                "status": 201,
+                "Body": {
+                    "token": "token"
+                }
+            }
+        }
+    },
+    {
+        "method": "POST",
+        "url": "/api/auth/login",
+        "request": {
+            "Body": {
+                "username": "username",
+                "password": "password"
+            }
+        },
+        "response": {
+            "if_user_does_not_exist": {
+                "status": 404
+            },
+            "if_password_is_incorrect": {
+                "status": 400
+            },
+            "if_successful": {
+                "status": 200,
+                "Body": {
+                    "token": "token"
+                }
+            }
+        }
+    },
+    {
+        "method": "GET",
+        "url": "/api/user/:username",
+        "request": {
+            "Headers": {
+                "Authorization": "Bearer [token]"
+            }
+        },
+        "response": {
+            "if_unauthorised": {
+                "status": 401
+            },
+            "if_successful": {
+                "requested_user_is_job_seeker": {
+                    "status": 200,
+                    "Body": {
+                        "username": "username",
+                        "full_name": "full_name",
+                        "email": "email",
+                        "phone": "phone",
+                        "gender": "gender",
+                        "brief_description": "brief_description",
+                        "skills": [
+                            "skill1",
+                            "skill2",
+                            "skill3"
+                        ],
+                        "resume_link": "resume_link",
+                        "user_role": "job_seeker",
+                        "job_type_preference": "job_type_preference",
+                        "expected_salary": "expected_salary",
+                        "year_of_graduation": "year_of_graduation",
+                        "degree": "degree",
+                        "major": "major"
+                    }
+                },
+                "requested_user_is_recruiter": {
+                    "status": 200,
+                    "Body": {
+                        "username": "username",
+                        "full_name": "full_name",
+                        "email": "email",
+                        "phone": "phone",
+                        "user_role": "job_poster",
+                        "gender": "gender",
+                        "company_name": "company_name",
+                        "position": "position",
+                        "linkedIn_url": "linkedIn_url"
+                    }
+                }
+            }
+        }
+    },
+    {
+        "method": "PUT",
+        "url": "/api/user",
+        "description": "Update user's profile",
+        "request": {
+            "description": "Body contains user fields",
+            "Headers": {
+                "Authorization": "Bearer [token]"
+            },
+            "Body": {
+                "user_is_job_seeker": {
+                    "full_name": "full_name",
+                    "email": "email",
+                    "phone": "phone",
+                    "gender": "gender",
+                    "brief_description": "brief_description",
+                    "skills": [
+                        "skill1",
+                        "skill2",
+                        "skill3"
+                    ],
+                    "resume_link": "resume_link",
+                    "user_role": "job_seeker",
+                    "job_type_preference": "job_type_preference",
+                    "expected_salary": "expected_salary",
+                    "year_of_graduation": "year_of_graduation",
+                    "degree": "degree",
+                    "major": "major"
+                },
+                "user_is_recruiter": {
+                    "full_name": "full_name",
+                    "email": "email",
+                    "phone": "phone",
+                    "user_role": "job_poster",
+                    "gender": "gender",
+                    "company_name": "company_name",
+                    "position": "position",
+                    "linkedIn_url": "linkedIn_url"
+                }
+            }
+        }
+    },
+    {
+        "method": "GET",
+        "url": "/api/jobs",
+        "request": {
+            "Headers": {
+                "Authorization": "Bearer [token]"
+            }
+        },
+        "response": {
+            "if_unauthorised": {
+                "status": 401
+            },
+            "if_successful": {
+                "Description": {
+                    "requirement": "Returns a list of all jobs where any one of the user's skills matches any one of the job's required skills",
+                    "job_object": {
+                        "job_id": "job_id",
+                        "job_title": "job_title",
+                        "job_location": "job_location",
+                        "job_salary": "job_salary",
+                        "job_type": "job_type",
+                        "job_deadline": "dd/mm/yyyy",
+                        "company": [
+                            "company_name",
+                            "relevant_link"
+                        ]
+                    }
+                },
+                "status": 200,
+                "Body": [
+                    "array",
+                    "of",
+                    "job_objects"
+                ]
+            }
+        }
+    },
+    {
+        "method": "GET",
+        "url": "/api/jobs/:job_id",
+        "request": {
+            "Headers": {
+                "Authorization": "Bearer [token]"
+            }
+        },
+        "response": {
+            "if_unauthorised": {
+                "status": 401
+            },
+            "if_job_does_not_exist": {
+                "status": 404
+            },
+            "if_successful": {
+                "Description": {
+                    "requirement": "Returns the job object with the specified job_id"
+                },
+                "status": 200,
+                "Body": {
+                    "job_id": "job_id",
+                    "job_title": "job_title",
+                    "job_description": "job_description",
+                    "job_poster": "job_poster",
+                    "job_vacancy": "job_vacancy",
+                    "job_location": "job_location",
+                    "job_salary": "job_salary",
+                    "job_type": "job_type",
+                    "job_date_posted": "job_date_posted",
+                    "job_deadline": "dd/mm/yyyy",
+                    "company": [
+                        "company_name",
+                        "relevant_link"
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "method": "POST",
+        "url": "/api/application",
+        "request": {
+            "Headers": {
+                "Authorization": "Bearer [token]"
+            },
+            "Body": {
+                "job_id": "job_id",
+                "application_date": "dd/mm/yyyy",
+                "application_status": "application_status"
+            }
+        },
+        "response": {
+            "if_unauthorised": {
+                "status": 401
+            },
+            "if_already_applied": {
+                "status": 400
+            },
+            "if_successful": {
+                "status": 201
+            }
+        }
+    },
+    {
+        "method": "GET",
+        "url": "/api/application",
+        "request": {
+            "Headers": {
+                "Authorization": "Bearer [token]"
+            }
+        },
+        "response": {
+            "if_unauthorised": {
+                "status": 401
+            },
+            "if_successful": {
+                "Description": {
+                    "requirement": "Returns a list of all applications made by the job_seeker",
+                    "application_object": {
+                        "job_id": "job_id",
+                        "job_title": "job_title",
+                        "job_location": "job_location",
+                        "job_type": "job_type",
+                        "job_deadline": "dd/mm/yyyy",
+                        "company": [
+                            "company_name",
+                            "relevant_link"
+                        ],
+                        "application_date": "application_date",
+                        "application_status": "application_status"
+                    }
+                },
+                "status": 200,
+                "Body": [
+                    "array",
+                    "of",
+                    "application_objects"
+                ]
+            }
+        }
+    }
+]
