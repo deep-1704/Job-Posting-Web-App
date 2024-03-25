@@ -80,6 +80,8 @@ create table jobs(
     relevant_company_link varchar(1000) not null
 );
 
+create sequence job_id_seq start with 1 increment by 1;
+
 drop table if exists job_skills;
 
 create table job_skills(
@@ -135,6 +137,8 @@ create table job_applications(
     application_date varchar(50) not null,
     application_status varchar(50) not null
 );
+
+create sequence application_id_seq start with 1 increment by 1;
 
 alter TABLE job_applications
 add constraint job_applications_jobs_job_id_fk
