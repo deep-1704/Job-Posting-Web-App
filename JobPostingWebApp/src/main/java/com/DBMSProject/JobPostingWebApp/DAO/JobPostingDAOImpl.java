@@ -1,4 +1,4 @@
 package com.DBMSProject.JobPostingWebApp.DAO;
 
-public class JobPostingDAOImpl {
+public class JobPostingDAOImpl implements JobPostingDAO{
 }

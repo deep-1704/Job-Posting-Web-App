@@ -1,4 +1,9 @@
 package com.DBMSProject.JobPostingWebApp.DAO;
 
-public interface JobPostingDAO {
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface JobPostingDAO{
+
+
 }
