@@ -1,4 +1,4 @@
-import { Flex, Heading, Spacer, Button, Text } from '@chakra-ui/react'
+import { Flex, Heading, Spacer, Button, Menu, MenuList, MenuItem, MenuButton } from '@chakra-ui/react'
 import styles from "./styles.module.css";
 
 function Navbar() {
@@ -11,12 +11,26 @@ function Navbar() {
                         OpenSkill
                     </Heading>
                     <Spacer />
-                    <Button colorScheme='teal' variant='ghost'>
-                        <Text fontSize='1xl'>Login</Text>
-                    </Button>
-                    <Button colorScheme='teal' variant='ghost'>
-                        <Text fontSize='1xl'>Register</Text>
-                    </Button>
+                    <Flex gap='5'>
+                        <Menu>
+                            <MenuButton as={Button} colorScheme='green' variant='outline' size='lg'>
+                                Log In
+                            </MenuButton>
+                            <MenuList>
+                                <MenuItem>For Job Seekers</MenuItem>
+                                <MenuItem>For Recruiters</MenuItem>
+                            </MenuList>
+                        </Menu>
+                        <Menu>
+                            <MenuButton as={Button} colorScheme='green' variant='solid' size='lg'>
+                                Sign Up
+                            </MenuButton>
+                            <MenuList>
+                                <MenuItem>For Job Seekers</MenuItem>
+                                <MenuItem>For Recruiters</MenuItem>
+                            </MenuList>
+                        </Menu>
+                    </Flex>
                 </Flex>
             </div>
         </>
