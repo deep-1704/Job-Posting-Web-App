@@ -13,16 +13,13 @@ import java.util.List;
 
 @Component
 public class authDAOImpl implements authDAO {
-
     @Override
     public users getUser(String username) {
-
         return null;
     }
 
     @Override
     public users saveUser(users user) {
-        return null;
+        return user;
     }
-
 }

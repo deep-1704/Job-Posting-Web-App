@@ -429,8 +429,6 @@
                 "full_name": "full_name",
                 "email": "email",
                 "phone": "phone",
-                "user_role": "job_poster",
-                "gender": "gender",
                 "company_name": "company_name",
                 "position": "position",
                 "linkedIn_url": "linkedIn_url"
