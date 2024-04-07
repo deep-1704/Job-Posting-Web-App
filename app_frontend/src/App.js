@@ -1,6 +1,7 @@
 import Navbar from "./Navbar/main";
 // import LandingPage from "./Landing_page/main";
-import Login from "./Auth_pages/login";
+// import Login from "./Auth_pages/login";
+import Signup from "./Auth_pages/signup";
 
 
 function App() {
@@ -8,7 +9,8 @@ function App() {
     <>
       <Navbar />
       {/* <LandingPage /> */}
-      <Login user_role='job_seeker'/>
+      {/* <Login /> */}
+      <Signup user_role='job_seeker'/>
     </>
   );
 }
