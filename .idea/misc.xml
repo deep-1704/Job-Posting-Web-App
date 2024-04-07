@@ -5,6 +5,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/JobPostingWebApp/pom.xml" />
+        <option value="$PROJECT_DIR$/app_backend/pom.xml" />
       </list>
     </option>
   </component>

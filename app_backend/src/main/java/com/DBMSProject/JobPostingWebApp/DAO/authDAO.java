@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 public interface authDAO {
     users getUser(String username);//Find out 1 user only => users is just table name
-
+    users saveUser(users user);//Save user to database
 }
