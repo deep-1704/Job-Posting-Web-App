@@ -50,6 +50,20 @@ BEGIN
     WHERE username = :old.username;
 END;
 
+create or replace trigger trg_insert_users
+after insert on users
+for each ROW
+begin
+    if(:new.user_role = 'job_seeker') then
+        insert into job_seekers(username, brief_description, resume_link, 
+        job_type_preference, expected_salary, year_of_graduation, degree, major) 
+        values(:new.username, null, null, null, null, null, null, null);
+    else
+        insert into job_posters(username, company_name, position, linkedin_link) 
+        values(:new.username, null, null, null);
+    end if;
+end;
+
 drop table job_posters;
 
 create table job_posters(
