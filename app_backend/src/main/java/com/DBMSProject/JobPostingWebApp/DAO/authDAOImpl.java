@@ -15,6 +15,10 @@ import java.util.List;
 @Component
 public class authDAOImpl implements authDAO {
 
+    @Override
+    public users getUser(String username) {
+
+
     String url = "jdbc:oracle:thin:@localhost:1521:orcl";
     String user = "c##jobpostingwebapp";
     String password = "jobpostingwebapp";
@@ -57,10 +61,16 @@ public class authDAOImpl implements authDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return null;
     }
 
     @Override
+
+    public users saveUser(users user) {
+        return user;
+    }
+
     public users saveUser(users User) {
         try {
             Connection con = DriverManager.getConnection(url, user, password);
@@ -107,5 +117,6 @@ public class authDAOImpl implements authDAO {
 //        System.out.println(user);
 //
 //    }
+
 
 }
