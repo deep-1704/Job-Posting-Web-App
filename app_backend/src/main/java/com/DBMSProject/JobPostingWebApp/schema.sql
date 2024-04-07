@@ -1,7 +1,7 @@
 -- create user c##jobpostingwebapp identified by jobpostingwebapp;
 -- grant dba to c##jobpostingwebapp;
 
-drop table if exists users;
+drop table users;
 
 create table users(
     username varchar(50) not null primary key,
@@ -9,12 +9,21 @@ create table users(
     full_name varchar(100) not null,
     email varchar(100) not null,
     user_role varchar(20) not null,
-    enabled boolean not null,
+    enabled varchar(1) not null, -- may be removed later 
     phone varchar(20) not null,
     gender varchar(20) not null
 );
 
-drop table if exists job_seekers;
+insert into users(username, password, FULL_NAME, EMAIL, USER_ROLE, ENABLED, PHONE, GENDER) 
+values('Raghava', '$2a$12$hwZPfAfRazrjq/QLvIC.Xu6Hp3lef23CrZeVl5b1uEyEa0xmRv7By', 'S.S.V.Raghava', 'Raghava@gmail.com', 'job_seeker', 'T', '7885789568','Male');
+
+DELETE FROM users WHERE username = 'Raghava';
+
+select *from users;
+
+commit;
+
+drop table job_seekers;
 
 create table job_seekers(
     username varchar(50) not null primary key,
@@ -41,7 +50,21 @@ BEGIN
     WHERE username = :old.username;
 END;
 
-drop table if exists job_posters;
+create or replace trigger trg_insert_users
+after insert on users
+for each ROW
+begin
+    if(:new.user_role = 'job_seeker') then
+        insert into job_seekers(username, brief_description, resume_link, 
+        job_type_preference, expected_salary, year_of_graduation, degree, major) 
+        values(:new.username, null, null, null, null, null, null, null);
+    else
+        insert into job_posters(username, company_name, position, linkedin_link) 
+        values(:new.username, null, null, null);
+    end if;
+end;
+
+drop table job_posters;
 
 create table job_posters(
     username varchar(50) not null primary key,
@@ -64,7 +87,7 @@ BEGIN
     WHERE username = :old.username;
 END;
 
-drop table if exists jobs;
+drop table jobs;
 
 create table jobs(
     job_id int not null primary key,
@@ -72,7 +95,6 @@ create table jobs(
     job_description varchar(500) not null,
     job_poster varchar(50) not null,
     job_type varchar(50) not null,
-    job_location varchar(50) not null,
     job_salary varchar(50) not null,
     job_post_date varchar(50) not null,
     job_deadline varchar(50) not null,
@@ -80,9 +102,29 @@ create table jobs(
     relevant_company_link varchar(1000) not null
 );
 
+create table job_locations(
+    job_id int not null,
+    location varchar(1000) not null,
+    primary key (job_id, location)
+);
+
+alter table job_locations
+add constraint jon_locations_job_id_fk
+foreign key (job_id) references jobs (job_id)
+on DELETE CASCADE;
+
+CREATE OR REPLACE TRIGGER trg_update_cascade_job_locatoins
+AFTER UPDATE OF job_id ON jobs
+FOR EACH ROW
+BEGIN
+    UPDATE job_locations
+    SET job_id = :new.job_id
+    WHERE job_id = :old.job_id;
+END;
+
 create sequence job_id_seq start with 1 increment by 1;
 
-drop table if exists job_skills;
+drop table job_skills;
 
 create table job_skills(
     job_id int not null,
@@ -105,7 +147,7 @@ begin
 end;
 
 
-drop table if exists user_skills;
+drop table user_skills;
 
 create table user_skills(
     username varchar(50) not null,
@@ -128,7 +170,7 @@ begin
 end;
 
 
-drop table if exists job_applications;
+drop table job_applications;
 
 create table job_applications(
     application_id int not null primary key,
