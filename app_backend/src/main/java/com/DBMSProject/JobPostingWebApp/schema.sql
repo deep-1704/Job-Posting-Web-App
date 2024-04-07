@@ -9,10 +9,19 @@ create table users(
     full_name varchar(100) not null,
     email varchar(100) not null,
     user_role varchar(20) not null,
-    enabled boolean not null, -- may be removed later 
+    enabled varchar(1) not null, -- may be removed later 
     phone varchar(20) not null,
     gender varchar(20) not null
 );
+
+insert into users(username, password, FULL_NAME, EMAIL, USER_ROLE, ENABLED, PHONE, GENDER) 
+values('Raghava', '$2a$12$hwZPfAfRazrjq/QLvIC.Xu6Hp3lef23CrZeVl5b1uEyEa0xmRv7By', 'S.S.V.Raghava', 'Raghava@gmail.com', 'job_seeker', 'T', '7885789568','Male');
+
+DELETE FROM users WHERE username = 'Raghava';
+
+select *from users;
+
+commit;
 
 drop table job_seekers;
 
