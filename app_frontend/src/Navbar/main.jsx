@@ -12,22 +12,14 @@ function Navbar() {
                     </Heading>
                     <Spacer />
                     <Flex gap='5'>
-                        <Menu>
-                            <MenuButton as={Button} colorScheme='green' variant='outline' size='lg'>
-                                Log In
-                            </MenuButton>
-                            <MenuList>
-                                <MenuItem>For Job Seekers</MenuItem>
-                                <MenuItem>For Recruiters</MenuItem>
-                            </MenuList>
-                        </Menu>
+                        <Button colorScheme='green' variant='outline' size='lg' >Log In</Button>
                         <Menu>
                             <MenuButton as={Button} colorScheme='green' variant='solid' size='lg'>
                                 Sign Up
                             </MenuButton>
                             <MenuList>
-                                <MenuItem>For Job Seekers</MenuItem>
-                                <MenuItem>For Recruiters</MenuItem>
+                                <MenuItem>I'm looking for a job</MenuItem>
+                                <MenuItem>I'm looking for candidates</MenuItem>
                             </MenuList>
                         </Menu>
                     </Flex>
