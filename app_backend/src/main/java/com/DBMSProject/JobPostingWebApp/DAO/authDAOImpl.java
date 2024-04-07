@@ -60,11 +60,18 @@ public class authDAOImpl implements authDAO {
         return null;
     }
 
+
     // Testing the getUser method
 //    public static void main(String[] args){
 //        authDAOImpl auth = new authDAOImpl();
 //        users user = auth.getUser("Raghava");
 //        System.out.println(user);
 //    }
+
+    @Override
+    public users saveUser(users user) {
+        return null;
+    }
+
 
 }
