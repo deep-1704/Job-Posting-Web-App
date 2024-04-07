@@ -11,15 +11,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-//private String username;
-//private String password;
-//private String full_name;
-//private String email;
-//private String user_role;
-//private boolean enabled;
-//private String phone;
-//private String gender
-
 @Component
 public class authDAOImpl implements authDAO {
 
@@ -28,4 +19,10 @@ public class authDAOImpl implements authDAO {
 
         return null;
     }
+
+    @Override
+    public users saveUser(users user) {
+        return null;
+    }
+
 }
