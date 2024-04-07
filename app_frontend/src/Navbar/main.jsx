@@ -1,4 +1,6 @@
-import { Flex, Heading, Spacer, Button, Menu, MenuList, MenuItem, MenuButton } from '@chakra-ui/react'
+import { Flex, Heading, Spacer} from '@chakra-ui/react'
+import AuthButtons from "./components/authButtons";
+import ProfileButton from './components/profileButton';
 import styles from "./styles.module.css";
 
 function Navbar() {
@@ -11,18 +13,7 @@ function Navbar() {
                         OpenSkill
                     </Heading>
                     <Spacer />
-                    <Flex gap='5'>
-                        <Button colorScheme='green' variant='outline' size='lg' >Log In</Button>
-                        <Menu>
-                            <MenuButton as={Button} colorScheme='green' variant='solid' size='lg'>
-                                Sign Up
-                            </MenuButton>
-                            <MenuList>
-                                <MenuItem>I'm looking for a job</MenuItem>
-                                <MenuItem>I'm looking for candidates</MenuItem>
-                            </MenuList>
-                        </Menu>
-                    </Flex>
+                    {true? <ProfileButton fullName="Deep Prajapati" /> : <AuthButtons />}
                 </Flex>
             </div>
         </>
