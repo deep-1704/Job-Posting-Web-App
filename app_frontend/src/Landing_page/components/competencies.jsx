@@ -17,19 +17,19 @@ function Competencies() {
                         <Text as='b' fontSize='4xl' color='#15543c'>Why job seekers love us</Text>
                         <div className={styles.compList}>
                             <Stack gap='7'>
-                                <Flex justifyContent='space-around' gap='8'>
+                                <Flex justifyContent='left' gap='8'>
                                     <Avatar src={growthIcon} />
                                     <Text fontSize='xl'>Connect directly with founders at top startups - no third party recruiters allowed.</Text>
                                 </Flex>
-                                <Flex justifyContent='space-around' gap='8'>
+                                <Flex justifyContent='left' gap='8'>
                                     <Avatar src={infoIcon} />
                                     <Text fontSize='xl'>Everything you need to know, all upfront. View salary, stock options, and more before applying.</Text>
                                 </Flex>
-                                <Flex justifyContent='space-around' gap='8'>
+                                <Flex justifyContent='left' gap='8'>
                                     <Avatar src={clickIcon} />
                                     <Text fontSize='xl'>Say goodbye to cover letters - your profile is all you need. One click to apply and you're done.</Text>
                                 </Flex>
-                                <Flex justifyContent='space-around' gap='8'>
+                                <Flex justifyContent='left' gap='8'>
                                     <Avatar src={podiumIcon} />
                                     <Text fontSize='xl'>Unique jobs at startups and tech companies you can't find anywhere else.</Text>
                                 </Flex>
@@ -43,19 +43,19 @@ function Competencies() {
                         <Text as='b' fontSize='4xl' color='#15543c'>Why recruiters love us</Text>
                         <div className={styles.compList}>
                             <Stack gap='7'>
-                                <Flex justifyContent='space-around' gap='8'>
+                                <Flex justifyContent='left' gap='8'>
                                     <Avatar src={growthIcon} />
                                     <Text fontSize='xl'>Tap into a community of 10M+ engaged, startup-ready candidates.</Text>
                                 </Flex>
-                                <Flex justifyContent='space-around' gap='8'>
+                                <Flex justifyContent='left' gap='8'>
                                     <Avatar src={infoIcon} />
                                     <Text fontSize='xl'>Everything you need to kickstart your recruiting — set up job posts, company branding, and HR tools within 10 minutes, all for free.</Text>
                                 </Flex>
-                                <Flex justifyContent='space-around' gap='8'>
+                                <Flex justifyContent='left' gap='8'>
                                     <Avatar src={clickIcon} />
                                     <Text fontSize='xl'>A free applicant tracking system, or free integration with any ATS you may already use.</Text>
                                 </Flex>
-                                <Flex justifyContent='space-around' gap='8'>
+                                <Flex justifyContent='left' gap='8'>
                                     <Avatar src={podiumIcon} />
                                     <Text fontSize='xl'>Let us handle the heavy-lifting with RecruiterCloud. Our new AI-Recruiter scans 500M+ candidates, filters it down based on your unique calibration, and schedules your favorites on your calendar in a matter of days.</Text>
                                 </Flex>
