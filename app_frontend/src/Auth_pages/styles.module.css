@@ -1,0 +1,10 @@
+.loginContainer{
+    display: flex;
+    justify-content: space-around;
+}
+.loginFormContainer{
+    width: 50%;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top: 50px;
+}
