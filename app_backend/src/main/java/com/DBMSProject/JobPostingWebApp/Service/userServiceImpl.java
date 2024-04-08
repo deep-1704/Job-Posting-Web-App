@@ -59,11 +59,11 @@ public class userServiceImpl implements userService {
             return null;
         }
         if (tempUser.getUser_role().equals("job_poster")) {
-            updateJobPosterProfileRequest updateJobPosterProfileRequestObj = JobPosterDAO.getJobPosterProfile(username);
-            if (updateJobPosterProfileRequestObj == null) {
+            getJobPosterResponse getJobPosterResponseObj = JobPosterDAO.getJobPosterProfile(username);
+            if (getJobPosterResponseObj == null) {
                 return null;
             }
-        return new getJobPosterResponse(tempUser.getUsername(), tempUser.getFull_name(), tempUser.getEmail(), tempUser.getUser_role(), tempUser.getPhone(), tempUser.getGender(), updateJobPosterProfileRequestObj.getCompany_name(), updateJobPosterProfileRequestObj.getPosition(), updateJobPosterProfileRequestObj.getLinkedIn_url());
+        return new getJobPosterResponse(tempUser.getUsername(), tempUser.getFull_name(), tempUser.getEmail(), tempUser.getUser_role(), tempUser.getPhone(), tempUser.getGender(), getJobPosterResponseObj.getCompany_name(), getJobPosterResponseObj.getPosition(), getJobPosterResponseObj.getLinkedIn_url());
 
         }
         return null;
@@ -76,8 +76,8 @@ public class userServiceImpl implements userService {
             return null;
         }
         if (tempUser.getUser_role().equals("job_seeker")) {
-            updateJobSeekerProfileRequest updateJobSeekerProfileRequestObj = jobSeekerDAO.getJobSeekerProfile(username);
-            if (updateJobSeekerProfileRequestObj == null) {
+            getJobSeekerResponse getJobSeekerResponseObj = jobSeekerDAO.getJobSeekerProfile(username);
+            if (getJobSeekerResponseObj == null) {
                 return null;
             }
             return new getJobSeekerResponse(
@@ -86,15 +86,15 @@ public class userServiceImpl implements userService {
                     tempUser.getEmail(),
                     tempUser.getPhone(),
                     tempUser.getGender(),
-                    updateJobSeekerProfileRequestObj.getBrief_description(),
-                    updateJobSeekerProfileRequestObj.getSkills(),
-                    updateJobSeekerProfileRequestObj.getResume_link(),
+                    getJobSeekerResponseObj.getBrief_description(),
+                    getJobSeekerResponseObj.getSkills(),
+                    getJobSeekerResponseObj.getResume_link(),
                     tempUser.getUser_role(),
-                    updateJobSeekerProfileRequestObj.getJob_type_preference(),
-                    updateJobSeekerProfileRequestObj.getExpected_salary(),
-                    updateJobSeekerProfileRequestObj.getYear_of_graduation(),
-                    updateJobSeekerProfileRequestObj.getDegree(),
-                    updateJobSeekerProfileRequestObj.getMajor()
+                    getJobSeekerResponseObj.getJob_type_preference(),
+                    getJobSeekerResponseObj.getExpected_salary(),
+                    getJobSeekerResponseObj.getYear_of_graduation(),
+                    getJobSeekerResponseObj.getDegree(),
+                    getJobSeekerResponseObj.getMajor()
             );
         }
         return null;

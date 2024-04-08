@@ -1,5 +1,6 @@
 package com.DBMSProject.JobPostingWebApp.DAO;
 
+import com.DBMSProject.JobPostingWebApp.Models.getJobPosterResponse;
 import com.DBMSProject.JobPostingWebApp.Models.updateJobPosterProfileRequest;
 import com.DBMSProject.JobPostingWebApp.Models.users;
 import org.springframework.stereotype.Component;
@@ -76,7 +77,7 @@ public class JobPosterDAOImpl implements JobPosterDAO {
     }
 
     @Override
-    public updateJobPosterProfileRequest getJobPosterProfile(String username) {
+    public getJobPosterResponse getJobPosterProfile(String username) {
         return null;
     }
 }

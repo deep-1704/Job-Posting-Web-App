@@ -1,5 +1,6 @@
 package com.DBMSProject.JobPostingWebApp.DAO;
 
+import com.DBMSProject.JobPostingWebApp.Models.getJobPosterResponse;
 import com.DBMSProject.JobPostingWebApp.Models.updateJobPosterProfileRequest;
 import com.DBMSProject.JobPostingWebApp.Models.users;
 import org.springframework.stereotype.Repository;
@@ -8,5 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface JobPosterDAO {
 
    void updateJobPosterProfile(updateJobPosterProfileRequest updateJobPosterProfileRequest,String username);
-   updateJobPosterProfileRequest getJobPosterProfile(String username);
+   getJobPosterResponse getJobPosterProfile(String username);
 }
