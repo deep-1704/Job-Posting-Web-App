@@ -3,7 +3,8 @@ import { Flex, Stack, Button, Text } from '@chakra-ui/react'
 import applicationIcon from './assets/images/applicationIcon.svg'
 import jobIcon from './assets/images/jobIcon.svg'
 import profileIcon from './assets/images/profileIcon.svg'
-import Applications from './Applications_page/main';
+// import Applications from './Applications_page/main';
+import Jobs from './Jobs_page/main';
 
 function JobSeekerDashboard() {
     return (
@@ -32,7 +33,8 @@ function JobSeekerDashboard() {
                 </Stack>
 
                 {/* Selected component */}
-                <Applications />
+                {/* <Applications /> */}
+                <Jobs/>
             </Flex>
         </div>
     );
