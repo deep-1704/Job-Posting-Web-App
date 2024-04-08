@@ -1,6 +1,7 @@
 package com.DBMSProject.JobPostingWebApp.Service;
 
 import com.DBMSProject.JobPostingWebApp.DAO.JobSeekerDAO;
+import com.DBMSProject.JobPostingWebApp.Models.getJobSeekerResponse;
 import com.DBMSProject.JobPostingWebApp.Models.loginUserRequest;
 import com.DBMSProject.JobPostingWebApp.Models.updateJobSeekerProfileRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class jobSeekerServiceImpl implements jobSeekerService{
     }
 
     @Override
-    public updateJobSeekerProfileRequest getJobSeekerProfile(String username) {
+    public getJobSeekerResponse getJobSeekerProfile(String username) {
         return jobSeekerDAO.getJobSeekerProfile(username);
     }
 }

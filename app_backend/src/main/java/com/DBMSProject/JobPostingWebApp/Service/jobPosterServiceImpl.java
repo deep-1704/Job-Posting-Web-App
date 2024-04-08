@@ -1,6 +1,7 @@
 package com.DBMSProject.JobPostingWebApp.Service;
 
 import com.DBMSProject.JobPostingWebApp.DAO.JobPosterDAO;
+import com.DBMSProject.JobPostingWebApp.Models.getJobPosterResponse;
 import com.DBMSProject.JobPostingWebApp.Models.loginUserRequest;
 import com.DBMSProject.JobPostingWebApp.Models.updateJobPosterProfileRequest;
 import com.DBMSProject.JobPostingWebApp.Models.users;
@@ -23,5 +24,9 @@ public class jobPosterServiceImpl implements jobPosterService{
             return "success";
         }
         return "null";
+    }
+
+    public getJobPosterResponse getJobPosterProfile(String username) {
+        return jobPosterDAO.getJobPosterProfile(username);
     }
 }

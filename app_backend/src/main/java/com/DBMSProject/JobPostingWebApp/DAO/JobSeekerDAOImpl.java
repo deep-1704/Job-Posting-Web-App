@@ -1,5 +1,6 @@
 package com.DBMSProject.JobPostingWebApp.DAO;
 
+import com.DBMSProject.JobPostingWebApp.Models.getJobSeekerResponse;
 import com.DBMSProject.JobPostingWebApp.Models.updateJobSeekerProfileRequest;
 import org.springframework.stereotype.Component;
 
@@ -79,7 +80,7 @@ public class JobSeekerDAOImpl implements JobSeekerDAO{
     }
 
     @Override
-    public updateJobSeekerProfileRequest getJobSeekerProfile(String username) {
+    public getJobSeekerResponse getJobSeekerProfile(String username) {
         return null;
     }
 }
