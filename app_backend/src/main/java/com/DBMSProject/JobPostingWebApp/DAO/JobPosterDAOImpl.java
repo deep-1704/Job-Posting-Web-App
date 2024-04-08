@@ -4,6 +4,9 @@ import com.DBMSProject.JobPostingWebApp.Models.updateJobPosterProfileRequest;
 import com.DBMSProject.JobPostingWebApp.Models.users;
 import org.springframework.stereotype.Component;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +22,7 @@ public class JobPosterDAOImpl implements JobPosterDAO {
 //    }
 
     @Override
-    public void updateJobPosterProfile(updateJobPosterProfileRequest updateJobPosterProfileRequest,String username){
+    public void updateJobPosterProfile(updateJobPosterProfileRequest updateJobPosterProfileRequestObj,String username){
 //        for(users user:usersList){
 //            if(user.getUsername().equals(username)){
 //                user.setFull_name(updateJobPosterProfileRequest.getFull_name());
@@ -28,5 +31,47 @@ public class JobPosterDAOImpl implements JobPosterDAO {
 //                System.out.println("Updated Job Poster Profile"+user);
 //            }
 //        }
+
+        String Full_name = updateJobPosterProfileRequestObj.getFull_name();
+        String Email = updateJobPosterProfileRequestObj.getEmail();
+        String Phone = updateJobPosterProfileRequestObj.getPhone();
+        String CompanyName = updateJobPosterProfileRequestObj.getCompany_name();
+        String Position = updateJobPosterProfileRequestObj.getPosition();
+        String LinkedInUrl = updateJobPosterProfileRequestObj.getLinkedIn_url();
+
+        String url = "jdbc:oracle:thin:@localhost:1521:orcl";
+        String user = "c##jobpostingwebapp";
+        String password = "jobpostingwebapp";
+
+        try{
+            Connection con = DriverManager.getConnection(url, user, password);
+            System.out.println("connected to db!!");
+            String query1 = "update job_posters set company_name = ?, position = ?, linkedin_link = ? where username = ?";
+            PreparedStatement pstmt1 = con.prepareStatement(query1);
+
+            pstmt1.setString(1, CompanyName);
+            pstmt1.setString(2, Position);
+            pstmt1.setString(3, LinkedInUrl);
+            pstmt1.setString(4, username);
+
+            pstmt1.executeUpdate();
+
+            PreparedStatement pstmt2 = con.prepareStatement("update users set full_name = ?, email = ?," +
+                    " phone = ? where username = ?");
+
+            pstmt2.setString(1, Full_name);
+            pstmt2.setString(2, Email);
+            pstmt2.setString(3, Phone);
+            pstmt2.setString(4, username);
+
+            pstmt2.executeUpdate();
+
+            con.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
     }
 }
