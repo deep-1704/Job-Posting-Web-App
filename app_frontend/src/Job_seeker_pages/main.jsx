@@ -4,7 +4,8 @@ import applicationIcon from './assets/images/applicationIcon.svg'
 import jobIcon from './assets/images/jobIcon.svg'
 import profileIcon from './assets/images/profileIcon.svg'
 // import Applications from './Applications_page/main';
-import Jobs from './Jobs_page/main';
+// import Jobs from './Jobs_page/main';
+import Profile from './Profile_page/main';
 
 function JobSeekerDashboard() {
     return (
@@ -34,7 +35,8 @@ function JobSeekerDashboard() {
 
                 {/* Selected component */}
                 {/* <Applications /> */}
-                <Jobs/>
+                {/* <Jobs/> */}
+                <Profile />
             </Flex>
         </div>
     );

@@ -57,9 +57,7 @@ function Signup({ user_role }) {
                         <Select isRequired='true' size='md' placeholder='Gender' onChange={(e) => setUserInfo({ ...userInfo, gender: e.target.value })}>
                             <option value='option1'>Male</option>
                             <option value='option2'>Female</option>
-                            <option value='option3'>Binary</option>
-                            <option value='option3'>Non-binary</option>
-                            <option value='option3'>Bisexual</option>
+                            <option value='option3'>Transgender</option>
                             <option value='option3'>Others</option>
                         </Select>
                     </Stack>
