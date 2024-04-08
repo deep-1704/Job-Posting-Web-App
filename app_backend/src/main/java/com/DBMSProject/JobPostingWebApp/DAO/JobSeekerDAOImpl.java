@@ -10,4 +10,9 @@ public class JobSeekerDAOImpl implements JobSeekerDAO{
     public void updateJobSeekerProfile(updateJobSeekerProfileRequest updateJobSeekerProfileRequest, String username) {
 
     }
+
+    @Override
+    public updateJobSeekerProfileRequest getJobSeekerProfile(String username) {
+        return null;
+    }
 }

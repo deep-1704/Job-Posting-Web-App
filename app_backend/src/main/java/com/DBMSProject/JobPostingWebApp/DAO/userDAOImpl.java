@@ -1,19 +1,12 @@
 package com.DBMSProject.JobPostingWebApp.DAO;
 
-import com.DBMSProject.JobPostingWebApp.Models.loginUserResponse;
 import com.DBMSProject.JobPostingWebApp.Models.users;
-import org.apache.catalina.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
-public class authDAOImpl implements authDAO {
+public class userDAOImpl implements userDAO {
 
     String url = "jdbc:oracle:thin:@localhost:1521:orcl";
     String user = "c##jobpostingwebapp";

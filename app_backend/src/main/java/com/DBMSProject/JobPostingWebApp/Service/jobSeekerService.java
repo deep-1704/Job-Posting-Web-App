@@ -5,4 +5,5 @@ import com.DBMSProject.JobPostingWebApp.Models.updateJobSeekerProfileRequest;
 
 public interface jobSeekerService {
     public String updateJobSeekerProfile(updateJobSeekerProfileRequest updateJobPosterProfileRequest, loginUserRequest loginUserRequestObj);
+    public updateJobSeekerProfileRequest getJobSeekerProfile(String username);
 }

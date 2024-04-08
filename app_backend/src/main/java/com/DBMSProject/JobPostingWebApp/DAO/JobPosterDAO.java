@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface JobPosterDAO {
 
    void updateJobPosterProfile(updateJobPosterProfileRequest updateJobPosterProfileRequest,String username);
-
+   updateJobPosterProfileRequest getJobPosterProfile(String username);
 }
