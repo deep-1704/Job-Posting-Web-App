@@ -77,4 +77,9 @@ public class JobSeekerDAOImpl implements JobSeekerDAO{
         }
 
     }
+
+    @Override
+    public updateJobSeekerProfileRequest getJobSeekerProfile(String username) {
+        return null;
+    }
 }

@@ -2,8 +2,9 @@ package com.DBMSProject.JobPostingWebApp.Models;
 
 import java.util.Arrays;
 
-public class updateJobSeekerProfileRequest {
+public class getJobSeekerResponse {
 
+    private String username;
     private String full_name;
     private String email;
     private String phone;
@@ -18,11 +19,12 @@ public class updateJobSeekerProfileRequest {
     private String degree;
     private String major;
 
-    public updateJobSeekerProfileRequest(){
+    public getJobSeekerResponse(){
 
     }
 
-    public updateJobSeekerProfileRequest(String full_name, String email, String phone, String gender, String brief_description, String[] skills, String resume_link, String user_role, String job_type_preference, String expected_salary, String year_of_graduation, String degree, String major) {
+    public getJobSeekerResponse(String username, String full_name, String email, String phone, String gender, String brief_description, String[] skills, String resume_link, String user_role, String job_type_preference, String expected_salary, String year_of_graduation, String degree, String major) {
+        this.username = username;
         this.full_name = full_name;
         this.email = email;
         this.phone = phone;
@@ -36,6 +38,14 @@ public class updateJobSeekerProfileRequest {
         this.year_of_graduation = year_of_graduation;
         this.degree = degree;
         this.major = major;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getFull_name() {
@@ -144,8 +154,9 @@ public class updateJobSeekerProfileRequest {
 
     @Override
     public String toString() {
-        return "updateJobSeekerProfileRequest{" +
-                "full_name='" + full_name + '\'' +
+        return "getJobSeekerResponse{" +
+                "username='" + username + '\'' +
+                ", full_name='" + full_name + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", gender='" + gender + '\'' +

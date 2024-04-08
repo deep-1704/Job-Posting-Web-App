@@ -74,4 +74,9 @@ public class JobPosterDAOImpl implements JobPosterDAO {
 
 
     }
+
+    @Override
+    public updateJobPosterProfileRequest getJobPosterProfile(String username) {
+        return null;
+    }
 }

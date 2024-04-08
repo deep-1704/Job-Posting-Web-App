@@ -23,4 +23,9 @@ public class jobSeekerServiceImpl implements jobSeekerService{
         }
         return "null";
     }
+
+    @Override
+    public updateJobSeekerProfileRequest getJobSeekerProfile(String username) {
+        return jobSeekerDAO.getJobSeekerProfile(username);
+    }
 }
