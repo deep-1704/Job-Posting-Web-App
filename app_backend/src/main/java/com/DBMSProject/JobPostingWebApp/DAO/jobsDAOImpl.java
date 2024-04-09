@@ -14,4 +14,9 @@ public class jobsDAOImpl implements jobsDAO{
     public postJobsRequest getJob(int job_id) {
         return null;
     }
+
+    @Override
+    public void deleteJob(int job_id) {
+
+    }
 }
