@@ -482,5 +482,30 @@
                 "status": 200
             }
         }
+    },
+    {
+        "method": "PUT",
+        "url": "/api/application/:application_id",
+        "description": "Update application status",
+        "request": {
+            "description": "Body contains application status",
+            "Headers": {
+                "Authorization": "Bearer [token]"
+            },
+            "Body":{
+                "application_status": "application_status"
+            }
+        },
+        "response":{
+            "if_unauthorised": {
+                "status": 401
+            },
+            "user_not_job_poster": {
+                "status": 400
+            },
+            "if_successful": {
+                "status": 200
+            }
+        }
     }
 ]
