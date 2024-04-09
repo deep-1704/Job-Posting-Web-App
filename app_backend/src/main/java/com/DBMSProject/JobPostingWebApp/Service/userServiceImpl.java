@@ -63,8 +63,7 @@ public class userServiceImpl implements userService {
             if (getJobPosterResponseObj == null) {
                 return null;
             }
-        return new getJobPosterResponse(tempUser.getUsername(), tempUser.getFull_name(), tempUser.getEmail(), tempUser.getUser_role(), tempUser.getPhone(), tempUser.getGender(), getJobPosterResponseObj.getCompany_name(), getJobPosterResponseObj.getPosition(), getJobPosterResponseObj.getLinkedIn_url());
-
+            return getJobPosterResponseObj;
         }
         return null;
     }
@@ -80,22 +79,7 @@ public class userServiceImpl implements userService {
             if (getJobSeekerResponseObj == null) {
                 return null;
             }
-            return new getJobSeekerResponse(
-                    tempUser.getUsername(),
-                    tempUser.getFull_name(),
-                    tempUser.getEmail(),
-                    tempUser.getPhone(),
-                    tempUser.getGender(),
-                    getJobSeekerResponseObj.getBrief_description(),
-                    getJobSeekerResponseObj.getSkills(),
-                    getJobSeekerResponseObj.getResume_link(),
-                    tempUser.getUser_role(),
-                    getJobSeekerResponseObj.getJob_type_preference(),
-                    getJobSeekerResponseObj.getExpected_salary(),
-                    getJobSeekerResponseObj.getYear_of_graduation(),
-                    getJobSeekerResponseObj.getDegree(),
-                    getJobSeekerResponseObj.getMajor()
-            );
+            return getJobSeekerResponseObj;
         }
         return null;
     }
