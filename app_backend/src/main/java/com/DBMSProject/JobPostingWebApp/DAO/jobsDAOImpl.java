@@ -9,4 +9,9 @@ public class jobsDAOImpl implements jobsDAO{
     public void saveJob( postJobsRequest requestObj,String username){
 
     }
+
+    @Override
+    public postJobsRequest getJob(int job_id) {
+        return null;
+    }
 }
