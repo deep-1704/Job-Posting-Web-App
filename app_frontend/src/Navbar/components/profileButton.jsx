@@ -18,6 +18,7 @@ import {
 import { ChevronDownIcon } from '@chakra-ui/icons'
 import JSProfileEditDrawer from './JSProfileEdit';
 import JPProfileEditDrawer from './JPProfileEdit';
+import CreateJobButton from './createJobButton';
 
 function ProfileButton() {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -36,12 +37,15 @@ function ProfileButton() {
 
     return (
         <Menu>
-            <MenuButton size='lg' as={Button} rightIcon={<ChevronDownIcon />}>
-                <Flex gap={3} alignItems='center'>
-                    <Avatar size='sm' src='https://bit.ly/broken-link' />
-                    <Text>{userObject.full_name}</Text>
-                </Flex>
-            </MenuButton>
+            <Flex gap={4}>
+                {userObject.user_role === 'job_poster' ? <CreateJobButton /> : <></>}
+                <MenuButton size='lg' as={Button} rightIcon={<ChevronDownIcon />}>
+                    <Flex gap={3} alignItems='center'>
+                        <Avatar size='sm' src='https://bit.ly/broken-link' />
+                        <Text>{userObject.full_name}</Text>
+                    </Flex>
+                </MenuButton>
+            </Flex>
             <MenuList>
                 <MenuItem onClick={onOpen}>Edit profile</MenuItem>
                 <MenuItem color='red'>Logout</MenuItem>

@@ -44,7 +44,9 @@ function Job({ job }) {
                 </CardHeader>
                 <CardBody>
                     <Flex gap='3'>
-                        <Tag>{job.job_location}</Tag>
+                        {job.job_location.map((location) => {
+                            return <Tag key={location}>{location}</Tag>
+                        })}
                         <Tag colorScheme='green'>{job.job_salary / 100000}LPA</Tag>
                         <Tag>{job.job_type}</Tag>
                         <Tag colorScheme='red'>Deadline: {job.job_deadline}</Tag>
