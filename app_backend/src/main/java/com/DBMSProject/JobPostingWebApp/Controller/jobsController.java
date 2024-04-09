@@ -52,4 +52,20 @@ public class jobsController {
         return ResponseEntity.status(200).body(response);
     }
 
+    @DeleteMapping("/{job_id}")
+    public ResponseEntity<Void> deleteJob(@RequestHeader("Authorization") String token, @PathVariable int job_id) {
+        if(! jwtUtils.validateJwtToken(token.split(" ")[1])){
+            return ResponseEntity.status(401).body(null);
+        }
+        loginUserRequest loginUserRequestObj=jwtUtils.decodeJwtToken(token.split(" ")[1]);
+        if(loginUserRequestObj==null){
+            return ResponseEntity.status(401).body(null);
+        }
+        if(loginUserRequestObj.getUser_role().equals("job_seeker")){
+            return ResponseEntity.status(400).body(null);
+        }
+        jobsService.deleteJob(job_id);
+        return ResponseEntity.status(200).body(null);
+    }
+
 }

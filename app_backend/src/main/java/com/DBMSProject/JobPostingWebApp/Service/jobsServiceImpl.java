@@ -28,4 +28,8 @@ public class jobsServiceImpl implements jobsService{
         }
         return response;
     }
+
+    public void deleteJob(int job_id) {
+        jobsDAO.deleteJob(job_id);
+    }
 }
