@@ -16,9 +16,11 @@ import {
 import { ExternalLinkIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import React from 'react'
 import JobDrawer from './jobDetailsDrawer'
-import companyIcon from '../../assets/images/companyLogo.svg'
+import companyIcon from '../assets/images/companyLogo.svg'
+import DeleteJob from './deleteButton'
+import JobApplications from './applicationsButton'
 
-function Job({ job }) {
+function JobPosterJobs({ job }) {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const btnRef = React.useRef()
     return (
@@ -50,6 +52,9 @@ function Job({ job }) {
                         <Tag colorScheme='green'>{job.job_salary / 100000}LPA</Tag>
                         <Tag>{job.job_type}</Tag>
                         <Tag colorScheme='red'>Deadline: {job.job_deadline}</Tag>
+                        <Spacer />
+                        <JobApplications jobId={job.job_id} totalApplications={job.total_applications} />
+                        <DeleteJob jobId={job.job_id} />
                     </Flex>
                 </CardBody>
             </Card>
@@ -66,4 +71,4 @@ function Job({ job }) {
     );
 }
 
-export default Job;
+export default JobPosterJobs;
