@@ -36,4 +36,20 @@ public class jobsController {
         return ResponseEntity.status(201).body(null);
     }
 
+    @GetMapping("/{job_id}")
+    public ResponseEntity<postJobsRequest> getJob(@RequestHeader("Authorization") String token, @PathVariable int job_id) {
+        if(! jwtUtils.validateJwtToken(token.split(" ")[1])){
+            return ResponseEntity.status(401).body(null);
+        }
+        loginUserRequest loginUserRequestObj=jwtUtils.decodeJwtToken(token.split(" ")[1]);
+        if(loginUserRequestObj==null){
+            return ResponseEntity.status(401).body(null);
+        }
+        postJobsRequest response=jobsService.getJob(job_id);
+        if(response==null){
+            return ResponseEntity.status(404).body(null);
+        }
+        return ResponseEntity.status(200).body(response);
+    }
+
 }

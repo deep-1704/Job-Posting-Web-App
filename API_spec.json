@@ -338,7 +338,12 @@
                     "job_location": "job_location",
                     "job_salary": "job_salary",
                     "job_type": "job_type",
-                    "job_date_posted": "job_date_posted",
+                    "job_skills": [
+                        "skill1",
+                        "skill2",
+                        "skill3"
+                    ],
+                    "job_date_posted": "dd/mm/yyyy",
                     "job_deadline": "dd/mm/yyyy",
                     "company": [
                         "company_name",

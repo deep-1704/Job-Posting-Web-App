@@ -19,4 +19,13 @@ public class jobsServiceImpl implements jobsService{
     public void saveJob(postJobsRequest requestObj, String username) {
         jobsDAO.saveJob(requestObj, username);
     }
+
+    @Override
+    public postJobsRequest getJob(int job_id) {
+        postJobsRequest response = jobsDAO.getJob(job_id);
+        if(response == null){
+            return null;
+        }
+        return response;
+    }
 }
