@@ -1,6 +1,7 @@
 package com.DBMSProject.JobPostingWebApp.DAO;
 
 import com.DBMSProject.JobPostingWebApp.Models.getApplicationByJobId;
+import com.DBMSProject.JobPostingWebApp.Models.getApplicationByUsernameResponse;
 import com.DBMSProject.JobPostingWebApp.Models.postJobApplication;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +25,11 @@ public class ApplicationDAOImpl implements ApplicationDAO {
 
     @Override
     public void deleteApplication(int application_id) {
+    }
+
+    @Override
+    public List<getApplicationByUsernameResponse> getApplicationByUsername(String username) {
+        return List.of();
     }
 
 }

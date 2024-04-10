@@ -2,6 +2,7 @@ package com.DBMSProject.JobPostingWebApp.Service;
 
 import com.DBMSProject.JobPostingWebApp.DAO.ApplicationDAO;
 import com.DBMSProject.JobPostingWebApp.Models.getApplicationByJobId;
+import com.DBMSProject.JobPostingWebApp.Models.getApplicationByUsernameResponse;
 import com.DBMSProject.JobPostingWebApp.Models.postJobApplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,11 @@ public class applicationServiceImpl implements applicationService{
     @Override
     public void deleteApplication(int application_id) {
         applicationDAO.deleteApplication(application_id);
+    }
+
+    @Override
+    public List<getApplicationByUsernameResponse> getApplicationByUsername(String username) {
+        return applicationDAO.getApplicationByUsername(username);
     }
 
 

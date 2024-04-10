@@ -2,6 +2,7 @@ package com.DBMSProject.JobPostingWebApp.Controller;
 
 import com.DBMSProject.JobPostingWebApp.DAO.ApplicationDAO;
 import com.DBMSProject.JobPostingWebApp.Models.getApplicationByJobId;
+import com.DBMSProject.JobPostingWebApp.Models.getApplicationByUsernameResponse;
 import com.DBMSProject.JobPostingWebApp.Models.loginUserRequest;
 import com.DBMSProject.JobPostingWebApp.Models.postJobApplication;
 import com.DBMSProject.JobPostingWebApp.Service.applicationService;
@@ -79,5 +80,24 @@ public class applicationController {
         }
         applicationServiceObj.deleteApplication(application_id);
         return ResponseEntity.status(204).body(null);
+    }
+
+    @GetMapping("/{username}")
+    public ResponseEntity<List<getApplicationByUsernameResponse>> getApplicationByUsername(@RequestHeader("Authorization") String token, @PathVariable String username){
+        if(!jwtUtils.validateJwtToken(token.split(" ")[1])){
+            return ResponseEntity.status(401).body(null);
+        }
+        loginUserRequest loginUserRequestObj=jwtUtils.decodeJwtToken(token.split(" ")[1]);
+        if(loginUserRequestObj ==null){
+            return ResponseEntity.status(401).body(null);
+        }
+        if(!loginUserRequestObj.getUser_role().equals("job_seeker")){
+            return ResponseEntity.status(400).body(null);
+        }
+        List<getApplicationByUsernameResponse> response= applicationServiceObj.getApplicationByUsername(username);
+        if(response==null){
+            return ResponseEntity.status(400).body(null);
+        }
+        return ResponseEntity.status(200).body(response);
     }
 }
