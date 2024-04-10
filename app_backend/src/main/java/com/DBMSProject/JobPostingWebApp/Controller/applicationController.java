@@ -100,4 +100,20 @@ public class applicationController {
         }
         return ResponseEntity.status(200).body(response);
     }
+
+    @PutMapping("/{application_id}")
+    public ResponseEntity<Void> updateApplicationStatus(@RequestHeader("Authorization") String token, @PathVariable int application_id, @RequestBody String application_status){
+        if(!jwtUtils.validateJwtToken(token.split(" ")[1])){
+            return ResponseEntity.status(401).body(null);
+        }
+        loginUserRequest loginUserRequestObj=jwtUtils.decodeJwtToken(token.split(" ")[1]);
+        if(loginUserRequestObj ==null){
+            return ResponseEntity.status(401).body(null);
+        }
+        if(!loginUserRequestObj.getUser_role().equals("job_poster")){
+            return ResponseEntity.status(400).body(null);
+        }
+        applicationServiceObj.updateApplicationStatus(application_id, application_status);
+        return ResponseEntity.status(200).body(null);
+    }
 }

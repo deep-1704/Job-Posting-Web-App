@@ -32,4 +32,9 @@ public class ApplicationDAOImpl implements ApplicationDAO {
         return List.of();
     }
 
+    @Override
+    public void updateApplicationStatus(int application_id, String application_status) {
+
+    }
+
 }

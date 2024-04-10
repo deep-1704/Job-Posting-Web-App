@@ -11,4 +11,5 @@ public interface applicationService {
     List<getApplicationByJobId> getApplicationByJobId(int job_id);
     void deleteApplication(int application_id);
     List<getApplicationByUsernameResponse> getApplicationByUsername(String username);
+    void updateApplicationStatus(int application_id, String application_status);
 }

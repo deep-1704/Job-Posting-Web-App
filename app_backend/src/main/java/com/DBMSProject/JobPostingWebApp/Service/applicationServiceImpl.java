@@ -43,5 +43,10 @@ public class applicationServiceImpl implements applicationService{
         return applicationDAO.getApplicationByUsername(username);
     }
 
+    @Override
+    public void updateApplicationStatus(int application_id, String application_status) {
+        applicationDAO.updateApplicationStatus(application_id,application_status);
+    }
+
 
 }
