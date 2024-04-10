@@ -1,11 +1,14 @@
 package com.DBMSProject.JobPostingWebApp.Service;
 
 import com.DBMSProject.JobPostingWebApp.DAO.JobSeekerDAO;
+import com.DBMSProject.JobPostingWebApp.Models.getJobSeekerJobsResponse;
 import com.DBMSProject.JobPostingWebApp.Models.getJobSeekerResponse;
 import com.DBMSProject.JobPostingWebApp.Models.loginUserRequest;
 import com.DBMSProject.JobPostingWebApp.Models.updateJobSeekerProfileRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class jobSeekerServiceImpl implements jobSeekerService{
@@ -28,5 +31,10 @@ public class jobSeekerServiceImpl implements jobSeekerService{
     @Override
     public getJobSeekerResponse getJobSeekerProfile(String username) {
         return jobSeekerDAO.getJobSeekerProfile(username);
+    }
+
+    @Override
+    public List<getJobSeekerJobsResponse> getJobSeekerJobs(String username) {
+        return jobSeekerDAO.getJobSeekerJobs(username);
     }
 }
