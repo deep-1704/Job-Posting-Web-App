@@ -1,11 +1,14 @@
 package com.DBMSProject.JobPostingWebApp.DAO;
 
+import com.DBMSProject.JobPostingWebApp.Models.getApplicationByJobId;
 import com.DBMSProject.JobPostingWebApp.Models.postJobApplication;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
-public class ApplicationDAOImpl implements ApplicationDAO{
-    public String saveApplication(postJobApplication postJobApplicationObj){
+public class ApplicationDAOImpl implements ApplicationDAO {
+    public String saveApplication(postJobApplication postJobApplicationObj) {
         return "success";//if success or "fail" for fail.
     }
 
@@ -13,4 +16,10 @@ public class ApplicationDAOImpl implements ApplicationDAO{
     public postJobApplication getApplication(int ApplicationID) {
         return null;
     }
+
+    @Override
+    public List<getApplicationByJobId> getApplicationByJobId(int job_id) {
+        return null;
+    }
+
 }

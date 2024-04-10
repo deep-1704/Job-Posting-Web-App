@@ -1,6 +1,7 @@
 package com.DBMSProject.JobPostingWebApp.Controller;
 
 import com.DBMSProject.JobPostingWebApp.DAO.ApplicationDAO;
+import com.DBMSProject.JobPostingWebApp.Models.getApplicationByJobId;
 import com.DBMSProject.JobPostingWebApp.Models.loginUserRequest;
 import com.DBMSProject.JobPostingWebApp.Models.postJobApplication;
 import com.DBMSProject.JobPostingWebApp.Service.applicationService;
@@ -8,6 +9,8 @@ import com.DBMSProject.JobPostingWebApp.Service.jwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/application")
@@ -41,5 +44,24 @@ public class applicationController {
         }
         else return ResponseEntity.status(401).body(null);
 
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<List<getApplicationByJobId>> getApplicationByJobId(@RequestHeader("Authorization") String token, @RequestParam int job_id){
+        if(!jwtUtils.validateJwtToken(token.split(" ")[1])){
+            return ResponseEntity.status(401).body(null);
+        }
+        loginUserRequest loginUserRequestObj=jwtUtils.decodeJwtToken(token.split(" ")[1]);
+        if(loginUserRequestObj ==null){
+            return ResponseEntity.status(401).body(null);
+        }
+        if(!loginUserRequestObj.getUser_role().equals("job_poster")){
+            return ResponseEntity.status(400).body(null);
+        }
+        List<getApplicationByJobId> response= applicationServiceObj.getApplicationByJobId(job_id);
+        if(response==null){
+            return ResponseEntity.status(400).body(null);
+        }
+        return ResponseEntity.status(200).body(response);
     }
 }
