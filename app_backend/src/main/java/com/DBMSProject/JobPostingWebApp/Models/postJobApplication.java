@@ -7,7 +7,7 @@ public class postJobApplication {
     private Date application_date;
     private String application_status;
 
-    private postJobApplication(){
+    public postJobApplication(){
 
     }
 

@@ -7,8 +7,8 @@ import com.DBMSProject.JobPostingWebApp.Models.postJobApplication;
 import java.util.List;
 
 public interface ApplicationDAO {
-    public String saveApplication(postJobApplication postJobApplicationObj);
-    postJobApplication getApplication(int ApplicationID);
+    public String saveApplication(postJobApplication postJobApplicationObj,String username);
+    postJobApplication getApplication(int job_id,String username);
     List<getApplicationByJobId> getApplicationByJobId(int job_id);
     void deleteApplication(int application_id);
     List<getApplicationByUsernameResponse> getApplicationByUsername(String username);

@@ -19,12 +19,12 @@ public class applicationServiceImpl implements applicationService{
     }
 
     @Override
-    public String postJobApplication(postJobApplication postJobApplicationObj){
-        postJobApplication tempApplication=applicationDAO.getApplication(postJobApplicationObj.getJob_id());
+    public String postJobApplication(postJobApplication postJobApplicationObj,String username){
+        postJobApplication tempApplication=applicationDAO.getApplication(postJobApplicationObj.getJob_id(),username);
         if(tempApplication!=null){
             return "already_applied";
         }
-        String response=applicationDAO.saveApplication(postJobApplicationObj);
+        String response=applicationDAO.saveApplication(postJobApplicationObj,username);
         return response;
     }
 
