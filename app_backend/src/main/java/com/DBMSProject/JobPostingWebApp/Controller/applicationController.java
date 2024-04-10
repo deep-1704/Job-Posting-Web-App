@@ -60,9 +60,6 @@ public class applicationController {
             return ResponseEntity.status(400).body(null);
         }
         List<getApplicationByJobId> response= applicationServiceObj.getApplicationByJobId(job_id);
-        if(response==null){
-            return ResponseEntity.status(400).body(null);
-        }
         return ResponseEntity.status(200).body(response);
     }
 
@@ -95,9 +92,6 @@ public class applicationController {
             return ResponseEntity.status(400).body(null);
         }
         List<getApplicationByUsernameResponse> response= applicationServiceObj.getApplicationByUsername(username);
-        if(response==null){
-            return ResponseEntity.status(400).body(null);
-        }
         return ResponseEntity.status(200).body(response);
     }
 
