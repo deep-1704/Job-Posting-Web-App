@@ -12,95 +12,36 @@ import {
     Stack
 } from '@chakra-ui/react'
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import JobApplication from './application'
+
+import { fetchApplicationsWithJobId } from '../../api'
 
 function JobApplications({ jobId, totalApplications }) {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const btnRef = React.useRef()
 
-    let applications = [
-        {
-            "username": "lemonade69",
-            "full_name": "Deep Prajapati",
-            "email": "dp124551634@gmail.com",
-            "phone": "7436005772",
-            "gender": "Male",
-            "brief_description": "brief_description",
-            "skills": [
-                "skill1",
-                "skill2",
-                "skill3"
-            ],
-            "resume_link": "resume_link",
-            "job_type_preference": "Remote",
-            "expected_salary": "expected_salary",
-            "year_of_graduation": "year_of_graduation",
-            "degree": "degree",
-            "major": "major",
-            "application_date": "application_date"
-        },
-        {
-            "username": "lemonade69",
-            "full_name": "Deep Prajapati",
-            "email": "dp124551634@gmail.com",
-            "phone": "7436005772",
-            "gender": "Male",
-            "brief_description": "brief_description",
-            "skills": [
-                "skill1",
-                "skill2",
-                "skill3"
-            ],
-            "resume_link": "resume_link",
-            "job_type_preference": "Remote",
-            "expected_salary": "expected_salary",
-            "year_of_graduation": "year_of_graduation",
-            "degree": "degree",
-            "major": "major",
-            "application_date": "application_date"
-        },
-        {
-            "username": "lemonade69",
-            "full_name": "Deep Prajapati",
-            "email": "dp124551634@gmail.com",
-            "phone": "7436005772",
-            "gender": "Male",
-            "brief_description": "brief_description",
-            "skills": [
-                "skill1",
-                "skill2",
-                "skill3"
-            ],
-            "resume_link": "resume_link",
-            "job_type_preference": "Remote",
-            "expected_salary": "expected_salary",
-            "year_of_graduation": "year_of_graduation",
-            "degree": "degree",
-            "major": "major",
-            "application_date": "application_date"
-        },
-        {
-            "username": "lemonade69",
-            "full_name": "Deep Prajapati",
-            "email": "dp124551634@gmail.com",
-            "phone": "7436005772",
-            "gender": "Male",
-            "brief_description": "brief_description",
-            "skills": [
-                "skill1",
-                "skill2",
-                "skill3"
-            ],
-            "resume_link": "resume_link",
-            "job_type_preference": "Remote",
-            "expected_salary": "expected_salary",
-            "year_of_graduation": "year_of_graduation",
-            "degree": "degree",
-            "major": "major",
-            "application_date": "application_date"
-        },
-    ]
+    const [applications, setApplications] = React.useState([])
+
+    useEffect(() => {
+        let token = localStorage.getItem('token')
+        fetchApplicationsWithJobId(jobId, token)
+            .then((response) => {
+                if(response.status === 401) {
+                    localStorage.removeItem('token')
+                    alert('Session expired. Please login again.')
+                    window.location.href = '/login'
+                    return
+                }
+                if(response.status === 400) {
+                    alert('Error fetching applications')
+                    return
+                }
+                if (response.status === 200) {
+                    setApplications(response.applications)
+                }
+            })
+    }, [])
 
     return (
         <>

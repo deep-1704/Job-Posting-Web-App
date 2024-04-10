@@ -11,39 +11,78 @@ import {
     DrawerCloseButton,
     Heading,
     useToast,
-    Spinner
 } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+
+import { postApplication } from '../../../api'
+import { fetchJobWithId } from '../../../api'
 
 function JobDrawer({ jobId }) {
     const toast = useToast()
-    let [applyButton, setApplyButton] = useState("Apply")
+    let [isLoading, setIsLoading] = useState(false)
+    let [isDisabled, setIsDisabled] = useState(false)
+    let [job, setJob] = useState({})
+
     let handleApply = () => {
-        setApplyButton(<Spinner />)
-        toast({
-            title: `top-right toast`,
-            position: 'top-right',
-            isClosable: true,
-            variant:'left-accent'
+        setIsLoading(true)
+
+        let dateObj = new Date()
+        postApplication({
+            job_id: jobId,
+            application_status: 'Applied',
+            application_date: `${dateObj.getFullYear()}/${dateObj.getMonth()}/${dateObj.getDate()}`,
+        }).then((response) => {
+            setIsLoading(false)
+            if (response.status === 201) {
+                toast({
+                    title: 'Success!',
+                    description: "Application submitted successfully",
+                    status: 'success',
+                    duration: 9000,
+                    isClosable: true,
+                    variant: 'left-accent',
+                    position: 'top'
+                })
+                setIsDisabled(true);
+            }
+            else if(response.status === 401){
+                localStorage.removeItem('token')
+                alert('Session expired. Please login again.')
+                window.location.href = '/login'
+            }
+            else{
+                toast({
+                    title: 'Error!',
+                    description: "Application submission failed",
+                    status: 'error',
+                    duration: 9000,
+                    isClosable: true,
+                    variant: 'left-accent',
+                    position: 'top'
+                })
+            }
         })
     }
-    let job = {
-        "job_id": 0,
-        "job_title": "Sr. Software Engineer",
-        "job_description": "Zenskar is building new-age billing and pricing infrastructure for SaaS companies. As SaaS pricing evolves from vanilla subscription based models to more granular usage based models, billing and pricing infrastructure needs to be completely reimagined.",
-        "job_poster": "job_poster",
-        "job_vacancy": 100,
-        "job_location": "Banglore",
-        "job_salary": 1200000,
-        "job_type": "On-site",
-        "job_date_posted": "08/04/2024",
-        "job_deadline": "17/04/2024",
-        "company": [
-            "Zenskar",
-            "https://www.zenskar.com"
-        ],
-        "job_skills": ["C", "C++", "Java", "Python", "JavaScript", "React", "Node.js", "MongoDB", "SQL"]
-    }
+
+    useEffect(()=>{
+        fetchJobWithId(jobId).then((response) => {
+            if(response.status === 200){
+                setJob(response.job)
+                return;
+            }
+            if(response.status === 401){
+                localStorage.removeItem('token')
+                alert('Session expired. Please login again.')
+                window.location.href = '/login'
+                return;
+            }
+            if(response.status === 404){
+                alert('Job not found')
+                return;
+            }
+        })
+    })
+
     return (
         <>
             <DrawerOverlay />
@@ -84,9 +123,11 @@ function JobDrawer({ jobId }) {
                             colorScheme='blue'
                             size='lg'
                             marginTop='10px'
+                            isLoading={isLoading}
+                            isDisabled={isDisabled}
                             onClick={() =>
                                 handleApply()
-                            }>{applyButton}</Button>
+                            }>Apply</Button>
                     </Stack>
                 </DrawerBody>
             </DrawerContent>

@@ -7,13 +7,25 @@ import {
     FormLabel,
     useEditableControls,
     IconButton,
+    Button,
     ButtonGroup,
     Stack
 } from '@chakra-ui/react'
 
 import { CheckIcon, CloseIcon, EditIcon } from '@chakra-ui/icons'
+import { updateUser } from '../../api'
+import { useState } from 'react'
 
 function JPProfileEditDrawer({ userObject }) {
+
+    let [full_name, setFull_name] = useState(userObject.full_name);
+    let [email, setEmail] = useState(userObject.email);
+    let [phone, setPhone] = useState(userObject.phone);
+    let [linkedIn_url, setLinkedIn_url] = useState(userObject.linkedIn_url);
+    let [company_name, setCompany_name] = useState(userObject.company_name);
+    let [position, setPosition] = useState(userObject.position);
+    let [isLoading, setIsLoading] = useState(false);
+
     /* Here's a custom control */
     function EditableControls() {
         const {
@@ -34,6 +46,30 @@ function JPProfileEditDrawer({ userObject }) {
             </Flex>
         )
     }
+
+    function handleSave() {
+        setIsLoading(true);
+        let token = localStorage.getItem('token');
+        let user = {
+            "username": userObject.username,
+            "full_name": full_name,
+            "email": email,
+            "phone": phone,
+            "linkedIn_url": linkedIn_url,
+            "company_name": company_name,
+            "position": position,
+            "gender": userObject.gender
+        }
+        updateUser(user, token).then((response) => {
+            setIsLoading(false)
+            if (response === 200) {
+                alert('Profile updated successfully')
+            } else {
+                alert('Failed to update profile')
+            }
+        })
+    }
+
     return (
         <>
             {/* Form */}
@@ -49,7 +85,7 @@ function JPProfileEditDrawer({ userObject }) {
                         marginLeft='10px'>
                         <Flex gap={3} color='#15543c'>
                             <EditablePreview />
-                            <Input as={EditableInput} />
+                            <Input as={EditableInput} onChange={(e) => setFull_name(e.target.value)}/>
                             <EditableControls />
                         </Flex>
                     </Editable>
@@ -66,7 +102,7 @@ function JPProfileEditDrawer({ userObject }) {
                         marginLeft='10px'>
                         <Flex gap={3} color='#15543c'>
                             <EditablePreview />
-                            <Input as={EditableInput} />
+                            <Input as={EditableInput} onChange={(e) => setEmail(e.target.value)}/>
                             <EditableControls />
                         </Flex>
                     </Editable>
@@ -83,7 +119,7 @@ function JPProfileEditDrawer({ userObject }) {
                         marginLeft='10px'>
                         <Flex gap={3} color='#15543c'>
                             <EditablePreview />
-                            <Input as={EditableInput} type="number" />
+                            <Input as={EditableInput} type="number" onChange={(e) => setPhone(e.target.value)}/>
                             <EditableControls />
                         </Flex>
                     </Editable>
@@ -100,7 +136,7 @@ function JPProfileEditDrawer({ userObject }) {
                         marginLeft='10px'>
                         <Flex gap={3} color='#15543c'>
                             <EditablePreview />
-                            <Input as={EditableInput} />
+                            <Input as={EditableInput} onChange={(e) => setLinkedIn_url(e.target.value)}/>
                             <EditableControls />
                         </Flex>
                     </Editable>
@@ -117,7 +153,7 @@ function JPProfileEditDrawer({ userObject }) {
                         marginLeft='10px'>
                         <Flex gap={3} color='#15543c'>
                             <EditablePreview />
-                            <Input as={EditableInput} />
+                            <Input as={EditableInput} onChange={(e) => setCompany_name(e.target.value)}/>
                             <EditableControls />
                         </Flex>
                     </Editable>
@@ -134,11 +170,12 @@ function JPProfileEditDrawer({ userObject }) {
                         marginLeft='10px'>
                         <Flex gap={3} color='#15543c'>
                             <EditablePreview />
-                            <Input as={EditableInput} />
+                            <Input as={EditableInput} onChange={(e) => setPosition(e.target.value)}/>
                             <EditableControls />
                         </Flex>
                     </Editable>
                 </div>
+                <Button isLoading={isLoading} colorScheme='teal' size='lg' onClick={() => handleSave()}>Save</Button>
             </Stack>
         </>
     );

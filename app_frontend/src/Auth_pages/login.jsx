@@ -1,15 +1,58 @@
 import { useState } from 'react';
 import styles from './styles.module.css';
-import { Stack, Heading, Text, Input, InputGroup, InputRightElement, Button, Flex } from "@chakra-ui/react";
+import {
+    Stack,
+    Heading,
+    Text,
+    Input,
+    InputGroup,
+    InputRightElement,
+    Button,
+    Flex,
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem
+} from "@chakra-ui/react";
 import LoginIllus from './assets/images/Login.svg';
+
+import { loginUser } from '../api';
 
 function Login() {
     let [userInfo, setUserInfo] = useState({
         username: '',
         password: ''
     });
+    let [isLoading, setIsLoading] = useState(false);
     let [show, setShow] = useState(false);
     let handleClick = () => setShow(!show);
+
+    function validateData(userInfo){
+        if(userInfo.username === '' || userInfo.password === ''){
+            return false;
+        }
+        return true;
+    }
+
+    function handleLogin(){
+        setIsLoading(true);
+        if(!validateData(userInfo)){
+            setIsLoading(false);
+            alert('Please fill all the fields');
+            return;
+        }
+
+        loginUser(userInfo).then((response) => {
+            if(response.status === 200){
+                localStorage.setItem('token', response.token);
+                localStorage.setItem('username', userInfo.username);
+                window.location.href = `/${userInfo.username}/dashboard`;
+            }else{
+                setIsLoading(false);
+                alert('Invalid username or password');
+            }
+        });
+    }
     return (
         <div className={styles.loginContainer}>
             <div className={styles.loginFormContainer}>
@@ -21,7 +64,7 @@ function Login() {
                     <Stack gap='5'>
                         <Input placeholder='Username' size='lg' required onChange={(e) => setUserInfo({ ...userInfo, username: e.target.value })} />
                         <InputGroup size='md'>
-                            <Input pr='4.5rem' size='lg' type={show ? 'text' : 'password'} required placeholder='Password' onChange={(e) => setUserInfo({ ...userInfo, password: e.target.value })}/>
+                            <Input pr='4.5rem' size='lg' type={show ? 'text' : 'password'} required placeholder='Password' onChange={(e) => setUserInfo({ ...userInfo, password: e.target.value })} />
                             <InputRightElement width='4.5rem'>
                                 <Button h='1.5rem' size='sm' onClick={handleClick}>
                                     {show ? 'Hide' : 'Show'}
@@ -29,14 +72,20 @@ function Login() {
                             </InputRightElement>
                         </InputGroup>
                     </Stack>
-                    <Button colorScheme='teal' variant='outline'>
+                    <Button isLoading={isLoading} colorScheme='teal' variant='outline' onClick={() => handleLogin()}>
                         Log In
                     </Button>
                     <Flex gap='2'>
                         <Text color='#9ec5c6'>Not registerd?</Text>
-                        <Button color='#21664d' variant='link'>
-                            Sign Up
-                        </Button>
+                        <Menu>
+                            <MenuButton as={Button} colorScheme='teal' variant='link' size='md'>
+                                Sign Up
+                            </MenuButton>
+                            <MenuList>
+                                <MenuItem onClick={() => window.location.href = '/signup/job_seeker'}>I'm looking for a job</MenuItem>
+                                <MenuItem onClick={() => window.location.href = '/signup/job_poster'}>I'm looking for candidates</MenuItem>
+                            </MenuList>
+                        </Menu>
                     </Flex>
                 </Stack>
             </div>

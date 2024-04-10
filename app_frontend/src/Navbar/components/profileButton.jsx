@@ -19,21 +19,37 @@ import { ChevronDownIcon } from '@chakra-ui/icons'
 import JSProfileEditDrawer from './JSProfileEdit';
 import JPProfileEditDrawer from './JPProfileEdit';
 import CreateJobButton from './createJobButton';
+import { fetchUser } from '../../api';
+import { useEffect, useState } from 'react';
 
 function ProfileButton() {
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const [userObject, setUserObject] = useState({});
 
-    let userObject = {
-        "username": "lemonade69",
-        "full_name": "Deep Prajapati",
-        "email": "dp12455163@gmail.com",
-        "phone": 7436005772,
-        "user_role": "job_poster",
-        "gender": "Male",
-        "company_name": "Google",
-        "position": "Sr. Software Engineer",
-        "linkedIn_url": "https://www.linkedin.com/in/deep1704/"
+    let token = localStorage.getItem("token");
+    let username = localStorage.getItem("username");
+
+    function logoutHandle(){
+        localStorage.removeItem("token");
+        localStorage.removeItem("username");
+        localStorage.removeItem("userType");
+        window.location.href = '/';
     }
+
+    useEffect(() => {
+        fetchUser(username, token).then(data => {
+            if (data === 401) {
+                localStorage.removeItem("token");
+                localStorage.removeItem("username");
+                localStorage.removeItem("userType");
+                window.location.reload();
+                return;
+            }
+            localStorage.setItem('userType', data.user_role);
+            setUserObject(data);
+        
+        })
+    }, [])
 
     return (
         <Menu>
@@ -47,8 +63,9 @@ function ProfileButton() {
                 </MenuButton>
             </Flex>
             <MenuList>
+                <MenuItem onClick={() => window.location.href = `./${username}/dashboard`}>Dashboard</MenuItem>
                 <MenuItem onClick={onOpen}>Edit profile</MenuItem>
-                <MenuItem color='red'>Logout</MenuItem>
+                <MenuItem color='red' onClick={()=>logoutHandle()}>Logout</MenuItem>
             </MenuList>
 
             {/* Drawer */}
