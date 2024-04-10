@@ -36,7 +36,7 @@ public class applicationController {
         if(!loginUserRequestObj.getUser_role().equals("job_seeker")){
             return ResponseEntity.status(401).body(null);
         }
-        String response= applicationServiceObj.postJobApplication(postJobApplicationObj);
+        String response= applicationServiceObj.postJobApplication(postJobApplicationObj,loginUserRequestObj.getUsername());
         if(response.equals("already_applied")){
             return ResponseEntity.status(400).body(null);
         }

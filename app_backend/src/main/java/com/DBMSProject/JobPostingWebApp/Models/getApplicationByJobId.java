@@ -9,12 +9,12 @@ public class getApplicationByJobId {
     private String email;
     private String phone;
     private String gender;
-    private String job_description;
+    private String brief_description;
     private List<String> skills;
     private String resume_link;
     private String job_type_preference;
     private int expected_salary;
-    private Date year_of_graduation;
+    private String year_of_graduation;
     private String degree;
     private String major;
     private Date application_date;
@@ -22,13 +22,13 @@ public class getApplicationByJobId {
     public getApplicationByJobId() {
     }
 
-    public getApplicationByJobId(String username, String full_name, String email, String phone, String gender, String job_description, List<String> skills, String resume_link, String job_type_preference, int expected_salary, Date year_of_graduation, String degree, String major, Date application_date) {
+    public getApplicationByJobId(String username, String full_name, String email, String phone, String gender, String brief_description, List<String> skills, String resume_link, String job_type_preference, int expected_salary, String year_of_graduation, String degree, String major, Date application_date) {
         this.username = username;
         this.full_name = full_name;
         this.email = email;
         this.phone = phone;
         this.gender = gender;
-        this.job_description = job_description;
+        this.brief_description = brief_description;
         this.skills = skills;
         this.resume_link = resume_link;
         this.job_type_preference = job_type_preference;
@@ -79,12 +79,12 @@ public class getApplicationByJobId {
         this.gender = gender;
     }
 
-    public String getJob_description() {
-        return job_description;
+    public String getBrief_description() {
+        return brief_description;
     }
 
-    public void setJob_description(String job_description) {
-        this.job_description = job_description;
+    public void setBrief_description(String brief_description) {
+        this.brief_description = brief_description;
     }
 
     public List<String> getSkills() {
@@ -119,11 +119,11 @@ public class getApplicationByJobId {
         this.expected_salary = expected_salary;
     }
 
-    public Date getYear_of_graduation() {
+    public String getYear_of_graduation() {
         return year_of_graduation;
     }
 
-    public void setYear_of_graduation(Date year_of_graduation) {
+    public void setYear_of_graduation(String year_of_graduation) {
         this.year_of_graduation = year_of_graduation;
     }
 
@@ -159,7 +159,7 @@ public class getApplicationByJobId {
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", gender='" + gender + '\'' +
-                ", job_description='" + job_description + '\'' +
+                ", job_description='" + brief_description + '\'' +
                 ", skills=" + skills +
                 ", resume_link='" + resume_link + '\'' +
                 ", job_type_preference='" + job_type_preference + '\'' +
