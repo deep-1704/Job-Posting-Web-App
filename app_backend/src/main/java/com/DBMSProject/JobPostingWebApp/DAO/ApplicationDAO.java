@@ -9,4 +9,5 @@ public interface ApplicationDAO {
     public String saveApplication(postJobApplication postJobApplicationObj);
     postJobApplication getApplication(int ApplicationID);
     List<getApplicationByJobId> getApplicationByJobId(int job_id);
+    void deleteApplication(int application_id);
 }

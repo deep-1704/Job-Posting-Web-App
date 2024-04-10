@@ -22,4 +22,8 @@ public class ApplicationDAOImpl implements ApplicationDAO {
         return null;
     }
 
+    @Override
+    public void deleteApplication(int application_id) {
+    }
+
 }

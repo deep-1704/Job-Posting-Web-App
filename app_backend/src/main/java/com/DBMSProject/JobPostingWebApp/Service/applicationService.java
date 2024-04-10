@@ -8,4 +8,5 @@ import java.util.List;
 public interface applicationService {
     String postJobApplication(postJobApplication postJobApplicationObj);
     List<getApplicationByJobId> getApplicationByJobId(int job_id);
+    void deleteApplication(int application_id);
 }

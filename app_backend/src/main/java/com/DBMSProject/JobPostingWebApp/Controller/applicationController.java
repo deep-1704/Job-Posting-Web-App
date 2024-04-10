@@ -64,4 +64,20 @@ public class applicationController {
         }
         return ResponseEntity.status(200).body(response);
     }
+
+    @DeleteMapping("/{application_id}")
+    public ResponseEntity<Void> deleteApplication(@RequestHeader("Authorization") String token, @PathVariable int application_id){
+        if(!jwtUtils.validateJwtToken(token.split(" ")[1])){
+            return ResponseEntity.status(401).body(null);
+        }
+        loginUserRequest loginUserRequestObj=jwtUtils.decodeJwtToken(token.split(" ")[1]);
+        if(loginUserRequestObj ==null){
+            return ResponseEntity.status(401).body(null);
+        }
+        if(!loginUserRequestObj.getUser_role().equals("job_poster")){
+            return ResponseEntity.status(400).body(null);
+        }
+        applicationServiceObj.deleteApplication(application_id);
+        return ResponseEntity.status(204).body(null);
+    }
 }

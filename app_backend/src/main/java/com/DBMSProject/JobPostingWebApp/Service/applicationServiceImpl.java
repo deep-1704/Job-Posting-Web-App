@@ -32,5 +32,10 @@ public class applicationServiceImpl implements applicationService{
         return applicationDAO.getApplicationByJobId(job_id);
     }
 
+    @Override
+    public void deleteApplication(int application_id) {
+        applicationDAO.deleteApplication(application_id);
+    }
+
 
 }
