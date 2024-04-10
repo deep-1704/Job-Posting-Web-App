@@ -185,7 +185,7 @@
     },
     {
         "method": "GET",
-        "url": "/api/job_poster/jobs",
+        "url": "/api/user/job_poster/jobs",
         "request": {
             "Headers": {
                 "Authorization": "Bearer [token]"
@@ -230,7 +230,7 @@
     },
     {
         "method": "GET",
-        "url": "/api/job_seeker/jobs",
+        "url": "/api/user/job_seeker/jobs",
         "request": {
             "Headers": {
                 "Authorization": "Bearer [token]"

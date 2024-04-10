@@ -1,5 +1,6 @@
 package com.DBMSProject.JobPostingWebApp.DAO;
 
+import com.DBMSProject.JobPostingWebApp.Models.getJobPosterJobsResponse;
 import com.DBMSProject.JobPostingWebApp.Models.getJobPosterResponse;
 import com.DBMSProject.JobPostingWebApp.Models.updateJobPosterProfileRequest;
 import com.DBMSProject.JobPostingWebApp.Models.users;
@@ -162,5 +163,10 @@ public class JobPosterDAOImpl implements JobPosterDAO {
         }
 
         return JobPosterResponseObj;
+    }
+
+    @Override
+    public List<getJobPosterJobsResponse> getJobsPostedByJobPoster(String username) {
+        return List.of();
     }
 }
