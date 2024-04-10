@@ -51,9 +51,6 @@ public class jobPosterController {
             return ResponseEntity.status(400).body(null);
         }
         List<getJobPosterJobsResponse> response=jobPosterService.getJobsPostedByJobPoster(loginUserRequestObj.getUsername());
-        if(response.size()==0){ //No jobs posted by job poster
-            return ResponseEntity.status(401).body(null);
-        }
         return ResponseEntity.status(200).body(response);
     }
 }

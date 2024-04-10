@@ -46,9 +46,6 @@ public class jobsController {
             return ResponseEntity.status(401).body(null);
         }
         postJobsRequest response=jobsService.getJob(job_id);
-        if(response==null){
-            return ResponseEntity.status(404).body(null);
-        }
         return ResponseEntity.status(200).body(response);
     }
 

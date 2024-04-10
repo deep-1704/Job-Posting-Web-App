@@ -52,9 +52,6 @@ private jobSeekerService jobSeekerService;
             return ResponseEntity.status(400).body(null);
         }
         List<getJobSeekerJobsResponse> response=jobSeekerService.getJobSeekerJobs(loginUserRequestObj.getUsername());
-        if(response.size()==0){
-            return ResponseEntity.status(401).body(null);
-        }
         return ResponseEntity.status(200).body(response);
     }
 }

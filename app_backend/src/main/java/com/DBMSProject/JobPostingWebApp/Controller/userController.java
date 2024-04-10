@@ -31,19 +31,11 @@ public class userController {
         }
         if (loginUserRequestObj.getUser_role().equals("job_seeker")) {
             getJobSeekerResponse response = userService.getJobSeeker(username);
-            if (response == null) {
-                return ResponseEntity.status(401).body(null);
-            }
             return ResponseEntity.status(200).body(response);
         } else if (loginUserRequestObj.getUser_role().equals("job_poster")) {
             getJobPosterResponse response = userService.getJobPoster(username);
-            if (response == null) {
-                return ResponseEntity.status(401).body(null);
-            }
             return ResponseEntity.status(200).body(response);
         }
         return ResponseEntity.status(401).body(null);
     }
-
-
 }
