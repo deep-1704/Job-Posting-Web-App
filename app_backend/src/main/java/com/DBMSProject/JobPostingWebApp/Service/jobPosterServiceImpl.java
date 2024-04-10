@@ -1,12 +1,11 @@
 package com.DBMSProject.JobPostingWebApp.Service;
 
 import com.DBMSProject.JobPostingWebApp.DAO.JobPosterDAO;
-import com.DBMSProject.JobPostingWebApp.Models.getJobPosterResponse;
-import com.DBMSProject.JobPostingWebApp.Models.loginUserRequest;
-import com.DBMSProject.JobPostingWebApp.Models.updateJobPosterProfileRequest;
-import com.DBMSProject.JobPostingWebApp.Models.users;
+import com.DBMSProject.JobPostingWebApp.Models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class jobPosterServiceImpl implements jobPosterService{
@@ -28,5 +27,11 @@ public class jobPosterServiceImpl implements jobPosterService{
 
     public getJobPosterResponse getJobPosterProfile(String username) {
         return jobPosterDAO.getJobPosterProfile(username);
+    }
+
+    @Override
+    public List<getJobPosterJobsResponse> getJobsPostedByJobPoster(String username) {
+        return jobPosterDAO.getJobsPostedByJobPoster(username);
+
     }
 }

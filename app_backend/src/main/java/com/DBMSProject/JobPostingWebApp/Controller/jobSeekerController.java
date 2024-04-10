@@ -1,5 +1,6 @@
 package com.DBMSProject.JobPostingWebApp.Controller;
 
+import com.DBMSProject.JobPostingWebApp.Models.getJobSeekerJobsResponse;
 import com.DBMSProject.JobPostingWebApp.Models.loginUserRequest;
 import com.DBMSProject.JobPostingWebApp.Models.updateJobSeekerProfileRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.DBMSProject.JobPostingWebApp.Service.jwtUtils;
 import com.DBMSProject.JobPostingWebApp.Service.jobSeekerService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
@@ -36,5 +39,22 @@ private jobSeekerService jobSeekerService;
         return ResponseEntity.status(200).body(null);
     }
 
-
+    @GetMapping("/job_seeker/jobs")
+    public ResponseEntity<List<getJobSeekerJobsResponse>> getJobSeekerJobs(@RequestHeader("Authorization") String token) {
+        if(! jwtUtils.validateJwtToken(token.split(" ")[1])){
+            return ResponseEntity.status(401).body(null);
+        }
+        loginUserRequest loginUserRequestObj=jwtUtils.decodeJwtToken(token.split(" ")[1]);
+        if(loginUserRequestObj==null){
+            return ResponseEntity.status(401).body(null);
+        }
+        if(loginUserRequestObj.getUser_role().equals("job_poster")){
+            return ResponseEntity.status(400).body(null);
+        }
+        List<getJobSeekerJobsResponse> response=jobSeekerService.getJobSeekerJobs(loginUserRequestObj.getUsername());
+        if(response.size()==0){
+            return ResponseEntity.status(401).body(null);
+        }
+        return ResponseEntity.status(200).body(response);
+    }
 }

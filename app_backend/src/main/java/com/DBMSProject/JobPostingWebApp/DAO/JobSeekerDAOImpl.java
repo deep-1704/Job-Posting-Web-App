@@ -1,5 +1,6 @@
 package com.DBMSProject.JobPostingWebApp.DAO;
 
+import com.DBMSProject.JobPostingWebApp.Models.getJobSeekerJobsResponse;
 import com.DBMSProject.JobPostingWebApp.Models.getJobSeekerResponse;
 import com.DBMSProject.JobPostingWebApp.Models.updateJobSeekerProfileRequest;
 import org.springframework.stereotype.Component;
@@ -194,5 +195,10 @@ public class JobSeekerDAOImpl implements JobSeekerDAO{
 
         return JobSeekerResponseObj;
 
+    }
+
+    @Override
+    public List<getJobSeekerJobsResponse> getJobSeekerJobs(String username) {
+        return List.of();
     }
 }
