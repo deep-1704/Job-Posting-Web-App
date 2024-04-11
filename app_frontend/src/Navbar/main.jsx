@@ -1,30 +1,27 @@
-import { Flex, Heading, Spacer, Button, Menu, MenuList, MenuItem, MenuButton } from '@chakra-ui/react'
+import { Flex, Heading, Spacer, Divider} from '@chakra-ui/react'
+import AuthButtons from "./components/authButtons";
+import ProfileButton from './components/profileButton';
 import styles from "./styles.module.css";
+import { Outlet } from "react-router-dom";
 
 function Navbar() {
-
+    let isAuthenticated = false;
+    if (localStorage.getItem("token")) {
+        isAuthenticated = true;
+    }
     return (
         <>
-            <div className={styles.navbar_container}>
+            <div className={styles.navbar_container} >
                 <Flex>
-                    <Heading as='h1' size='2xl' noOfLines={1} color='#045149'>
+                    <Heading as='h1' size='2xl' noOfLines={1} color='#045149' onClick={() => window.location.href = "/"} cursor='pointer'>
                         OpenSkill
                     </Heading>
                     <Spacer />
-                    <Flex gap='5'>
-                        <Button colorScheme='green' variant='outline' size='lg' >Log In</Button>
-                        <Menu>
-                            <MenuButton as={Button} colorScheme='green' variant='solid' size='lg'>
-                                Sign Up
-                            </MenuButton>
-                            <MenuList>
-                                <MenuItem>I'm looking for a job</MenuItem>
-                                <MenuItem>I'm looking for candidates</MenuItem>
-                            </MenuList>
-                        </Menu>
-                    </Flex>
+                    {isAuthenticated? <ProfileButton /> : <AuthButtons />}
                 </Flex>
             </div>
+            <Divider />
+            <Outlet />
         </>
     );
 }
