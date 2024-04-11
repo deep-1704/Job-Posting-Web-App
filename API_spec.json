@@ -185,7 +185,7 @@
     },
     {
         "method": "GET",
-        "url": "/api/job_poster/jobs",
+        "url": "/api/user/job_poster/jobs",
         "request": {
             "Headers": {
                 "Authorization": "Bearer [token]"
@@ -230,7 +230,7 @@
     },
     {
         "method": "GET",
-        "url": "/api/job_seeker/jobs",
+        "url": "/api/user/job_seeker/jobs",
         "request": {
             "Headers": {
                 "Authorization": "Bearer [token]"
@@ -282,9 +282,14 @@
                 "job_poster": "job_poster",
                 "job_vacancy": "job_vacancy",
                 "job_location": "job_location",
+                "job_skills": [
+                    "skill1",
+                    "skill2",
+                    "skill3"
+                ],
                 "job_salary": "job_salary",
                 "job_type": "job_type",
-                "job_date_posted": "job_date_posted",
+                "job_date_posted": "dd/mm/yyyy",
                 "job_deadline": "dd/mm/yyyy",
                 "company": [
                     "company_name",
@@ -333,7 +338,12 @@
                     "job_location": "job_location",
                     "job_salary": "job_salary",
                     "job_type": "job_type",
-                    "job_date_posted": "job_date_posted",
+                    "job_skills": [
+                        "skill1",
+                        "skill2",
+                        "skill3"
+                    ],
+                    "job_date_posted": "dd/mm/yyyy",
                     "job_deadline": "dd/mm/yyyy",
                     "company": [
                         "company_name",
@@ -429,8 +439,6 @@
                 "full_name": "full_name",
                 "email": "email",
                 "phone": "phone",
-                "user_role": "job_poster",
-                "gender": "gender",
                 "company_name": "company_name",
                 "position": "position",
                 "linkedIn_url": "linkedIn_url"
