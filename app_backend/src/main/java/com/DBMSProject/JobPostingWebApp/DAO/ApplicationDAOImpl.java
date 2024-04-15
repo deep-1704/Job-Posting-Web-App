@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -66,6 +67,7 @@ public class ApplicationDAOImpl implements ApplicationDAO {
             ResultSet rs=pstmt.executeQuery();
 
             if(rs.next()){
+                application = new postJobApplication();
                 application.setJob_id(rs.getInt("job_id"));
             }
             con.close();
@@ -88,13 +90,15 @@ public class ApplicationDAOImpl implements ApplicationDAO {
 
             Connection con = DriverManager.getConnection(url, user, password);
             System.out.println("connected to db!!");
-            String query1 = "select u.username,u.full_name,u.email,u.phone,u.gender,js.brief_description,js.resume_link,js.job_type_preference,js.expected_salary,js.year_of_graduation,js.degree,js.major,ja.application_date " +
+            String query1 = "select u.username,u.full_name,u.email,u.phone,u.gender,js.brief_description," +
+                    "js.resume_link,js.job_type_preference,js.expected_salary,js.year_of_graduation,js.degree," +
+                    "js.major,ja.application_date,ja.application_id " +
                     "from users u, job_seekers js, job_applications ja " +
                     "where u.username = js.username and u.username = ja.username and ja.job_id=?";
             PreparedStatement pstmt=con.prepareStatement(query1);
             pstmt.setInt(1,job_id);
             ResultSet rs=pstmt.executeQuery();
-
+            applicationList=new ArrayList<>();
             while(rs.next()){
                 getApplicationByJobId application=new getApplicationByJobId();
                 application.setUsername(rs.getString(1));
@@ -105,12 +109,15 @@ public class ApplicationDAOImpl implements ApplicationDAO {
                 application.setBrief_description(rs.getString(6));
                 application.setResume_link(rs.getString(7));
                 application.setJob_type_preference(rs.getString(8));
-                application.setExpected_salary(rs.getInt(9));
+                String expected_salary_string=rs.getString(9);
+                application.setExpected_salary(Integer.parseInt((expected_salary_string)));
+                application.setSkills(new ArrayList<>());
                 application.setYear_of_graduation(rs.getString(10));
                 application.setDegree(rs.getString(11));
                 application.setMajor(rs.getString(12));
                 String application_date_string=rs.getString(13);
                 application.setApplication_date(sdf.parse(application_date_string));
+                application.setApplication_id(rs.getInt(14));
                 applicationList.add(application);
             }
             String query2 = "select skill from user_skills where username=?";
@@ -137,7 +144,7 @@ public class ApplicationDAOImpl implements ApplicationDAO {
 
     @Override
     public void deleteApplication(int application_id) {
-    try{
+        try{
             String url = "jdbc:oracle:thin:@localhost:1521:orcl";
             String user = "c##jobpostingwebapp";
             String password = "jobpostingwebapp";
@@ -165,13 +172,14 @@ public class ApplicationDAOImpl implements ApplicationDAO {
 
             Connection con = DriverManager.getConnection(url, user, password);
             System.out.println("connected to db!!");
-            String query1 = "select ja.job_id,j.job_title,j.job_type,j.job_deadline,j.relevant_company_link,jp.company_name,ja.application_status,ja.application_date " +
+            String query1 = "select ja.job_id,j.job_title,j.job_type,j.job_deadline,j.relevant_company_link,jp.company_name,ja.application_status,ja.application_date,ja.application_id " +
                     "from jobs j, job_applications ja, job_posters jp " +
                     "where j.job_id = ja.job_id and j.job_poster = jp.username and ja.username = ?";
             PreparedStatement pstmt=con.prepareStatement(query1);
             pstmt.setString(1,username);
             ResultSet rs=pstmt.executeQuery();
 
+            applicationList = new ArrayList<>();
             while(rs.next()){
                 getApplicationByUsernameResponse application=new getApplicationByUsernameResponse();
                 application.setJob_id(rs.getInt(1));
@@ -179,13 +187,15 @@ public class ApplicationDAOImpl implements ApplicationDAO {
                 application.setJob_type(rs.getString(3));
                 String job_deadline_string=rs.getString(4);
                 application.setJob_deadline(sdf.parse(job_deadline_string));
-                List<String> company=null;
+                application.setJob_location(new ArrayList<>());
+                List<String> company=new ArrayList<>();
                 company.add(rs.getString(6));
                 company.add(rs.getString(5));
                 application.setCompany(company);
                 application.setApplication_status(rs.getString(7));
                 String application_date_string=rs.getString(8);
                 application.setApplication_date(sdf.parse(application_date_string));
+                application.setApplication_id(rs.getInt(9));
                 applicationList.add(application);
             }
 
@@ -227,7 +237,7 @@ public class ApplicationDAOImpl implements ApplicationDAO {
             con.close();
         }catch (SQLException e){
             e.printStackTrace();
-        }
-    }
+  }
+}
 
 }

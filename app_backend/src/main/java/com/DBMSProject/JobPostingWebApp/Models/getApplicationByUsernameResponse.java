@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 public class getApplicationByUsernameResponse {
+    private int application_id;
     private int job_id;
     private String job_title;
     private List<String> job_location;
@@ -15,7 +16,9 @@ public class getApplicationByUsernameResponse {
 
     public getApplicationByUsernameResponse() {
     }
-    public getApplicationByUsernameResponse(int job_id, String job_title, List<String> job_location, String job_type, Date job_deadline, List<String> company, Date application_date, String application_status) {
+
+    public getApplicationByUsernameResponse(int application_id, int job_id, String job_title, List<String> job_location, String job_type, Date job_deadline, List<String> company, Date application_date, String application_status) {
+        this.application_id = application_id;
         this.job_id = job_id;
         this.job_title = job_title;
         this.job_location = job_location;
@@ -24,6 +27,14 @@ public class getApplicationByUsernameResponse {
         this.company = company;
         this.application_date = application_date;
         this.application_status = application_status;
+    }
+
+    public int getApplication_id() {
+        return application_id;
+    }
+
+    public void setApplication_id(int application_id) {
+        this.application_id = application_id;
     }
 
     public int getJob_id() {
@@ -93,7 +104,8 @@ public class getApplicationByUsernameResponse {
     @Override
     public String toString() {
         return "getApplicationByUsernameResponse{" +
-                "job_id=" + job_id +
+                "application_id=" + application_id +
+                ", job_id=" + job_id +
                 ", job_title='" + job_title + '\'' +
                 ", job_location=" + job_location +
                 ", job_type='" + job_type + '\'' +

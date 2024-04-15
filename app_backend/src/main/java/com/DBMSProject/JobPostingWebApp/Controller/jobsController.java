@@ -8,6 +8,7 @@ import com.DBMSProject.JobPostingWebApp.Service.jobsService;
 import com.DBMSProject.JobPostingWebApp.Service.jwtUtils;
 import com.DBMSProject.JobPostingWebApp.Models.loginUserRequest;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/jobs")
 public class jobsController {
