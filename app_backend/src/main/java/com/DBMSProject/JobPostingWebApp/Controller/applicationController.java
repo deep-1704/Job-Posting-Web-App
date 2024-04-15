@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/application")
 public class applicationController {
@@ -24,7 +25,7 @@ public class applicationController {
         this.applicationServiceObj=applicationServiceObj;
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<Void> postJobApplication(@RequestHeader("Authorization") String token, @RequestBody postJobApplication postJobApplicationObj){
         if(!jwtUtils.validateJwtToken(token.split(" ")[1])){
             return ResponseEntity.status(401).body(null);
@@ -47,7 +48,7 @@ public class applicationController {
 
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<List<getApplicationByJobId>> getApplicationByJobId(@RequestHeader("Authorization") String token, @RequestParam int job_id){
         if(!jwtUtils.validateJwtToken(token.split(" ")[1])){
             return ResponseEntity.status(401).body(null);
@@ -72,7 +73,7 @@ public class applicationController {
         if(loginUserRequestObj ==null){
             return ResponseEntity.status(401).body(null);
         }
-        if(!loginUserRequestObj.getUser_role().equals("job_poster")){
+        if(!loginUserRequestObj.getUser_role().equals("job_seeker")){
             return ResponseEntity.status(400).body(null);
         }
         applicationServiceObj.deleteApplication(application_id);
@@ -107,6 +108,7 @@ public class applicationController {
         if(!loginUserRequestObj.getUser_role().equals("job_poster")){
             return ResponseEntity.status(400).body(null);
         }
+        System.out.println(application_status);
         applicationServiceObj.updateApplicationStatus(application_id, application_status);
         return ResponseEntity.status(200).body(null);
     }

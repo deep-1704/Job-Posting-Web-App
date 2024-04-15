@@ -11,6 +11,7 @@ import com.DBMSProject.JobPostingWebApp.Service.jwtUtils;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/user")
 public class jobPosterController {

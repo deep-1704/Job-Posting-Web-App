@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import com.DBMSProject.JobPostingWebApp.Service.userService;
 import com.DBMSProject.JobPostingWebApp.Service.jwtUtils;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/user")
 public class userController {

@@ -68,6 +68,10 @@ public class JobSeekerDAOImpl implements JobSeekerDAO{
 
             pstmt2.executeUpdate();
 
+            String query4="delete from user_skills where username=?";
+            PreparedStatement pstmt4=con.prepareStatement(query4);
+            pstmt4.setString(1,username);
+            pstmt4.executeUpdate();
 
             String query3 = "insert into user_skills(username, skill) values(?,?)";
 

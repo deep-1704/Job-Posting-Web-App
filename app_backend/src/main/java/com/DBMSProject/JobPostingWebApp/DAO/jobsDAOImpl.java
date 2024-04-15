@@ -186,13 +186,8 @@ public class jobsDAOImpl implements jobsDAO {
 
             JobsRequestObj =  new postJobsRequest(job_id, job_title, job_description, job_poster, job_vacancy, job_location,
                     job_skills, job_salary, job_type, sdf.parse(job_date_posted), sdf.parse(job_deadline), company);
-
-            System.out.println(JobsRequestObj);
-
             con.close();
             return JobsRequestObj;
-
-
 
         }catch (Exception e){
             e.printStackTrace();

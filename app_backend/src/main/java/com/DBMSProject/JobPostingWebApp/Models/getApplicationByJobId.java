@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 public class getApplicationByJobId {
+    private int application_id;
     private String username;
     private String full_name;
     private String email;
@@ -22,7 +23,8 @@ public class getApplicationByJobId {
     public getApplicationByJobId() {
     }
 
-    public getApplicationByJobId(String username, String full_name, String email, String phone, String gender, String brief_description, List<String> skills, String resume_link, String job_type_preference, int expected_salary, String year_of_graduation, String degree, String major, Date application_date) {
+    public getApplicationByJobId(int application_id, String username, String full_name, String email, String phone, String gender, String brief_description, List<String> skills, String resume_link, String job_type_preference, int expected_salary, String year_of_graduation, String degree, String major, Date application_date) {
+        this.application_id = application_id;
         this.username = username;
         this.full_name = full_name;
         this.email = email;
@@ -37,6 +39,14 @@ public class getApplicationByJobId {
         this.degree = degree;
         this.major = major;
         this.application_date = application_date;
+    }
+
+    public int getApplication_id() {
+        return application_id;
+    }
+
+    public void setApplication_id(int application_id) {
+        this.application_id = application_id;
     }
 
     public String getUsername() {
@@ -154,17 +164,18 @@ public class getApplicationByJobId {
     @Override
     public String toString() {
         return "getApplicationByJobId{" +
-                "username='" + username + '\'' +
+                "application_id=" + application_id +
+                ", username='" + username + '\'' +
                 ", full_name='" + full_name + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", gender='" + gender + '\'' +
-                ", job_description='" + brief_description + '\'' +
+                ", brief_description='" + brief_description + '\'' +
                 ", skills=" + skills +
                 ", resume_link='" + resume_link + '\'' +
                 ", job_type_preference='" + job_type_preference + '\'' +
                 ", expected_salary=" + expected_salary +
-                ", year_of_graduation=" + year_of_graduation +
+                ", year_of_graduation='" + year_of_graduation + '\'' +
                 ", degree='" + degree + '\'' +
                 ", major='" + major + '\'' +
                 ", application_date=" + application_date +
