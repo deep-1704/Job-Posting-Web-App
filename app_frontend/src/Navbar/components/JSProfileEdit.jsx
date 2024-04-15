@@ -9,13 +9,28 @@ import {
     FormLabel,
     useEditableControls,
     IconButton,
+    Button,
     ButtonGroup,
-    Stack
+    Stack,
 } from '@chakra-ui/react'
 
 import { CheckIcon, CloseIcon, EditIcon } from '@chakra-ui/icons'
+import { updateUser } from '../../api'
+import { useState } from 'react'
 
 function JSProfileEditDrawer({ userObject }) {
+    let [full_name, setFullName] = useState(userObject.full_name)
+    let [email, setEmail] = useState(userObject.email)
+    let [phone, setPhone] = useState(userObject.phone)
+    let [brief_description, setBrief_description] = useState(userObject.brief_description)
+    let [skills, setSkills] = useState(userObject.skills)
+    let [resume_link, setResume_link] = useState(userObject.resume_link)
+    let [job_type_preference, setJob_type_preference] = useState(userObject.job_type_preference)
+    let [expected_salary, setExpected_salary] = useState(userObject.expected_salary)
+    let [degree, setDegree] = useState(userObject.degree)
+    let [major, setMajor] = useState(userObject.major)
+    let [year_of_graduation, setYear_of_graduation] = useState(userObject.year_of_graduation)
+    let [isLoading, setIsLoading] = useState(false)
     /* Here's a custom control */
     function EditableControls() {
         const {
@@ -36,6 +51,37 @@ function JSProfileEditDrawer({ userObject }) {
             </Flex>
         )
     }
+
+    function handleSave() {
+        setIsLoading(true)
+        let token = localStorage.getItem('token')
+        let username = localStorage.getItem('username')
+        let user = {
+            "username": username,
+            "gender": userObject.gender,
+            "user_role": userObject.user_role,
+            "full_name": full_name,
+            "email": email,
+            "phone": phone,
+            "brief_description": brief_description,
+            "skills": skills,
+            "resume_link": resume_link,
+            "job_type_preference": job_type_preference,
+            "expected_salary": expected_salary,
+            "degree": degree,
+            "major": major,
+            "year_of_graduation": year_of_graduation
+        }
+        
+        updateUser(user, token).then((response) => {
+            setIsLoading(false)
+            if (response === 200) {
+                alert('Profile updated successfully')
+            } else {
+                alert('Failed to update profile')
+            }
+        })
+    }
     return (
         <>
             {/* Form */}
@@ -45,13 +91,15 @@ function JSProfileEditDrawer({ userObject }) {
                     <FormLabel fontSize='1xl' >Full name</FormLabel>
                     <Editable
                         textAlign='center'
-                        defaultValue={userObject.full_name}
+                        value={full_name}
+                        defaultValue={full_name}
                         fontSize='2xl'
                         isPreviewFocusable={false}
-                        marginLeft='10px'>
+                        marginLeft='10px'
+                        onChange={(newValue) => setFullName(newValue)}>
                         <Flex gap={3} color='#15543c'>
                             <EditablePreview />
-                            <Input as={EditableInput} />
+                            <EditableInput onChange={(e) => setFullName(e.target.value) } />
                             <EditableControls />
                         </Flex>
                     </Editable>
@@ -68,7 +116,7 @@ function JSProfileEditDrawer({ userObject }) {
                         marginLeft='10px'>
                         <Flex gap={3} color='#15543c'>
                             <EditablePreview />
-                            <Input as={EditableInput} />
+                            <Input as={EditableInput} onChange={(e) => setEmail(e.target.value)} />
                             <EditableControls />
                         </Flex>
                     </Editable>
@@ -85,7 +133,7 @@ function JSProfileEditDrawer({ userObject }) {
                         marginLeft='10px'>
                         <Flex gap={3} color='#15543c'>
                             <EditablePreview />
-                            <Input as={EditableInput} type="number" />
+                            <Input as={EditableInput} type="number" onChange={(e) => setPhone(e.target.value)} />
                             <EditableControls />
                         </Flex>
                     </Editable>
@@ -102,7 +150,7 @@ function JSProfileEditDrawer({ userObject }) {
                         marginLeft='10px'>
                         <Flex gap={3} color='#15543c'>
                             <EditablePreview />
-                            <Input as={EditableTextarea} />
+                            <Input as={EditableTextarea} onChange={(e) => setBrief_description(e.target.value)} />
                             <EditableControls />
                         </Flex>
                     </Editable>
@@ -119,7 +167,7 @@ function JSProfileEditDrawer({ userObject }) {
                         marginLeft='10px'>
                         <Flex gap={3} color='#15543c'>
                             <EditablePreview />
-                            <Input as={EditableInput} />
+                            <Input as={EditableInput} onChange={(e) => setSkills((e.target.value).split(',').map((item) => item.trim()))} />
                             <EditableControls />
                         </Flex>
                     </Editable>
@@ -136,7 +184,7 @@ function JSProfileEditDrawer({ userObject }) {
                         marginLeft='10px'>
                         <Flex gap={3} color='#15543c'>
                             <EditablePreview />
-                            <Input as={EditableInput} />
+                            <Input as={EditableInput} onChange={(e) => setResume_link(e.target.value)} />
                             <EditableControls />
                         </Flex>
                     </Editable>
@@ -153,7 +201,7 @@ function JSProfileEditDrawer({ userObject }) {
                         marginLeft='10px'>
                         <Flex gap={3} color='#15543c'>
                             <EditablePreview />
-                            <Input as={EditableInput} />
+                            <Input as={EditableInput} onChange={(e) => setJob_type_preference(e.target.value)} />
                             <EditableControls />
                         </Flex>
                     </Editable>
@@ -161,7 +209,7 @@ function JSProfileEditDrawer({ userObject }) {
 
                 {/* Expected salary */}
                 <div>
-                    <FormLabel fontSize='1xl' >Expected salary<Text as='em' color='#9ec5c6'>(PA)</Text></FormLabel>
+                    <FormLabel fontSize='1xl' >Expected salary<Text as='em' color='#9ec5c6'>(₹ PA)</Text></FormLabel>
                     <Editable
                         textAlign='center'
                         defaultValue={userObject.expected_salary}
@@ -170,7 +218,7 @@ function JSProfileEditDrawer({ userObject }) {
                         marginLeft='10px'>
                         <Flex gap={3} color='#15543c'>
                             <EditablePreview />
-                            <Input as={EditableInput} type="number" />
+                            <Input as={EditableInput} type="number" onChange={(e) => setExpected_salary(e.target.value)} />
                             <EditableControls />
                         </Flex>
                     </Editable>
@@ -187,7 +235,7 @@ function JSProfileEditDrawer({ userObject }) {
                         marginLeft='10px'>
                         <Flex gap={3} color='#15543c'>
                             <EditablePreview />
-                            <Input as={EditableInput} />
+                            <Input as={EditableInput} onChange={(e) => setDegree(e.target.value)} />
                             <EditableControls />
                         </Flex>
                     </Editable>
@@ -204,7 +252,7 @@ function JSProfileEditDrawer({ userObject }) {
                         marginLeft='10px'>
                         <Flex gap={3} color='#15543c'>
                             <EditablePreview />
-                            <Input as={EditableInput} />
+                            <Input as={EditableInput} onChange={(e) => setMajor(e.target.value)} />
                             <EditableControls />
                         </Flex>
                     </Editable>
@@ -221,11 +269,12 @@ function JSProfileEditDrawer({ userObject }) {
                         marginLeft='10px'>
                         <Flex gap={3} color='#15543c'>
                             <EditablePreview />
-                            <Input as={EditableInput} type="number" />
+                            <Input as={EditableInput} type="number" onChange={(e) => setYear_of_graduation(e.target.value)} />
                             <EditableControls />
                         </Flex>
                     </Editable>
                 </div>
+                <Button isLoading={isLoading} colorScheme='teal' size='lg' onClick={() => handleSave()}>Save</Button>
             </Stack>
         </>
     );

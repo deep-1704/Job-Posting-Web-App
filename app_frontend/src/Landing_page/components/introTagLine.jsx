@@ -2,6 +2,17 @@ import styles from "../styles.module.css";
 import { Highlight, Heading, Stack, Flex, Button } from "@chakra-ui/react";
 
 function IntroTagLine() {
+
+    function handleClick(userType) {
+        let username = localStorage.getItem('username');
+        if (username) {
+            window.location.href = `/${username}/dashboard`;
+        }
+        else {
+            window.location.href = `/signup/${userType}`;
+        }
+    }
+
     return (
         <div className={styles.introTagContainer}>
             <div className={styles.darkBg}>
@@ -18,10 +29,10 @@ function IntroTagLine() {
                     </div>
                     <div className={styles.navButtons}>
                         <Flex gap='5' justifyContent='center'>
-                            <Button colorScheme='green' variant='solid' size='lg'>
+                            <Button colorScheme='green' variant='solid' size='lg' onClick={() => handleClick('job_seeker')}>
                                 Get Hired
                             </Button>
-                            <Button colorScheme='green' variant='solid' size='lg'>
+                            <Button colorScheme='green' variant='solid' size='lg' onClick={() => handleClick('job_poster')}>
                                 Find the best talent
                             </Button>
                         </Flex>

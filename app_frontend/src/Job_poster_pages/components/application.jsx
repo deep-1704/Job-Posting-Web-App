@@ -10,8 +10,30 @@ import {
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 
 import React from 'react'
+import { updateApplicationStatus } from '../../api'
 
 function JobApplication({ application }) {
+    let [isDisabled, setIsDisabled] = React.useState(false)
+
+    function handleSelection(status) {
+        let token = localStorage.getItem('token')
+        updateApplicationStatus(application.application_id, status, token).then((response) => {
+            if (response.status === 200) {
+                setIsDisabled(true)
+                return
+            }
+            if (response.status === 401) {
+                alert('Session expired. Please login again.')
+                window.location.href = '/login'
+                return
+            }
+            if (response.status === 400) {
+                alert('Error updating status')
+                return
+            }
+        })
+    }
+
     return (
         <>
             <Stack spacing={3} p={4} borderWidth='1px' borderRadius='lg' backgroundColor='#e6eaef'>
@@ -40,8 +62,8 @@ function JobApplication({ application }) {
                 <Text fontSize='lg' color='#045149'>Phone: {application.phone}</Text>
                 <Text fontSize='lg' color='#045149'>Email: {application.email}</Text>
                 <Flex gap={3}>
-                    <Button colorScheme='green'>Shortlist</Button>
-                    <Button variant='outline' colorScheme='red'>Reject</Button>
+                    <Button isDisabled={isDisabled} colorScheme='green' onClick={() => handleSelection("Shortlisted")}>Shortlist</Button>
+                    <Button isDisabled={isDisabled} variant='outline' colorScheme='red' onClick={() => handleSelection("Rejected")}>Reject</Button>
                 </Flex>
             </Stack>
         </>

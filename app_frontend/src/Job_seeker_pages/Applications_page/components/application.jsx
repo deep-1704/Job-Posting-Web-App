@@ -25,9 +25,33 @@ import React from 'react'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import companyIcon from '../../assets/images/companyLogo.svg'
 
+import { deleteApplication } from '../../../api'
+
 function Application({ application }) {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = React.useRef()
+
+    function handleDelete() {
+        let token = localStorage.getItem('token')
+        deleteApplication(application.application_id, token)
+            .then((response) => {
+                if (response.status === 401) {
+                    localStorage.removeItem('token')
+                    alert('Session expired. Please login again.')
+                    window.location.href = '/login'
+                    return
+                }
+                if (response.status === 400) {
+                    alert('Error deleting application')
+                    return
+                }
+                if (response.status === 204) {
+                    alert('Application deleted successfully')
+                    window.location.reload()
+                }
+            })
+    }
+
     return (
         <Card backgroundColor='#bfdbdd'>
             <CardHeader>
@@ -88,7 +112,7 @@ function Application({ application }) {
                                     <Button ref={cancelRef} onClick={onClose}>
                                         Cancel
                                     </Button>
-                                    <Button colorScheme='red' onClick={onClose} ml={3}>
+                                    <Button colorScheme='red' onClick={() => handleDelete()} ml={3} >
                                         Delete
                                     </Button>
                                 </AlertDialogFooter>

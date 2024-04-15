@@ -15,34 +15,50 @@ import femaleIcon from '../assets/images/femaleIcon.svg'
 import transIcon from '../assets/images/transIcon.svg'
 import othersIcon from '../assets/images/othersIcon.svg'
 
+import { fetchUser } from '../../api'
+import { useEffect, useState } from 'react'
+
 function Profile() {
-    let user = {
-        "username": "lemonade1704",
-        "full_name": "Deep Prajapati",
-        "email": "dp124551634@gmail.com",
-        "phone": "7436005772",
-        "gender": "Male",
-        "brief_description": "I belong to a sweet state named Gujarat in India. I'm a passionate Backend Developer who loves building and understanding backend architectures. I'm currently exploring different possibilities of the Spring framework. I am also into Competitive Programming which helps me improve my problem-solving and logic-building capabilities. I'm looking forward to working with a team highly motivated towards making this world a better place to live.",
+    let [user, setUser] = useState({
+        "username": "username",
+        "full_name": "full_name",
+        "email": "email",
+        "phone": "phone",
+        "gender": "gender",
+        "brief_description": "brief_description",
         "skills": [
-            "Java",
-            "Spring Boot",
-            "MySQL",
-            "MongoDB",
-            "C++",
-            "Python",
-            "JavaScript",
-            "ReactJS",
-            "NodeJS",
-            "ExpressJS",
+            "skill1",
+            "skill2",
+            "skill3"
         ],
-        "resume_link": "https://drive.google.com/file/d/1JTQWTIteDGSTQzs24oCq_NSPfhLmRPiA/view?usp=drive_link",
+        "resume_link": "resume_link",
         "user_role": "job_seeker",
-        "job_type_preference": "On-site",
-        "expected_salary": 6000000,
-        "year_of_graduation": 2025,
-        "degree": "Bachelor of Technology",
-        "major": "Computer Science and Engineering",
-    }
+        "job_type_preference": "job_type_preference",
+        "expected_salary": "expected_salary",
+        "year_of_graduation": "year_of_graduation",
+        "degree": "degree",
+        "major": "major"
+    })
+
+    useEffect(()=>{
+        let token = localStorage.getItem('token')
+        let username = localStorage.getItem('username')
+
+        fetchUser(token, username).then((response) => {
+            if(response.status === 401){
+                localStorage.removeItem('token')
+                localStorage.removeItem('username')
+                window.location.href = '/login'
+                return
+            }
+            if(response.status === 404){
+                alert('User not found')
+                return
+            }
+
+            setUser(response.data)
+        })
+    })
     return (
         <Stack paddingTop='40px' paddingLeft='5%' paddingRight='5%' paddingBottom='40px' gap={7}>
             <Stack gap={2}>

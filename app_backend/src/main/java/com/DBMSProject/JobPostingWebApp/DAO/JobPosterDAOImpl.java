@@ -10,8 +10,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Component
 public class JobPosterDAOImpl implements JobPosterDAO {
@@ -167,6 +167,146 @@ public class JobPosterDAOImpl implements JobPosterDAO {
 
     @Override
     public List<getJobPosterJobsResponse> getJobsPostedByJobPoster(String username) {
-        return List.of();
+        List<getJobPosterJobsResponse> jobPosterJobsResponseList = new ArrayList<>();
+
+        Map<Integer, Integer> job_id_position = new HashMap<>();
+
+        try {
+            String url = "jdbc:oracle:thin:@localhost:1521:orcl";
+            String user = "c##jobpostingwebapp";
+            String password = "jobpostingwebapp";
+
+            Connection con = DriverManager.getConnection(url, user, password);
+            System.out.println("connected to db!!");
+
+            String query4 = "select COMPANY_NAME from JOB_POSTERS where username = ?";
+            PreparedStatement pstmt4 = con.prepareStatement(query4);
+
+            pstmt4.setString(1, username);
+            ResultSet rs4 = pstmt4.executeQuery();
+
+            String company_name = null;
+            while(rs4.next()) {
+                company_name = rs4.getString(1);
+            }
+
+            int job_id = 0;
+            String job_title = null;
+            String job_description = null;
+            int job_vacancy = 0;
+            String job_type = null;
+            int job_salary = 0;
+            String  job_post_date = null;
+            String job_deadline = null;
+            String relevant_company_link = null;
+
+            String query1 = "select job_id, job_title, job_description, JOB_VACANCY, job_type, job_salary, job_post_date, " +
+                    "job_deadline, RELEVANT_COMPANY_LINK from jobs where job_poster = ?";
+
+            PreparedStatement pstmt1 = con.prepareStatement(query1);
+            pstmt1.setString(1, username);
+
+            ResultSet rs1 = pstmt1.executeQuery();
+
+            int i=0;
+            while(rs1.next()){
+
+                List<String> company_List = new ArrayList<>();
+
+                job_id = rs1.getInt(1);
+                job_title = rs1.getString(2);
+                job_description = rs1.getString(3);
+                job_vacancy = rs1.getInt(4);
+                job_type = rs1.getString(5);
+                job_salary = rs1.getInt(6);
+                job_post_date = rs1.getString(7);
+                job_deadline = rs1.getString(8);
+                relevant_company_link = rs1.getString(9);
+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+                getJobPosterJobsResponse jobPosterJobsResponseObj = new getJobPosterJobsResponse();
+                jobPosterJobsResponseObj.setJob_id(job_id);
+                jobPosterJobsResponseObj.setJob_title(job_title);
+                jobPosterJobsResponseObj.setJob_description(job_description);
+                jobPosterJobsResponseObj.setJob_vacancy(job_vacancy);
+                jobPosterJobsResponseObj.setJob_type(job_type);
+                jobPosterJobsResponseObj.setJob_salary(job_salary);
+                jobPosterJobsResponseObj.setJob_date_posted(sdf.parse(job_post_date));
+                jobPosterJobsResponseObj.setJob_deadline(sdf.parse(job_deadline));
+                jobPosterJobsResponseObj.setJob_poster(username);
+
+                company_List.add(company_name);
+                company_List.add(relevant_company_link);
+                jobPosterJobsResponseObj.setCompany(company_List);
+
+                jobPosterJobsResponseList.add(jobPosterJobsResponseObj);
+
+                job_id_position.put(job_id, i);
+                i++;
+            }
+
+
+
+            String query2 = "select LOCATION from JOB_LOCATIONS where JOB_ID = ?";
+
+            PreparedStatement pstmt2 = con.prepareStatement(query2);
+
+            for(getJobPosterJobsResponse jobPosterJobsResponseObj_: jobPosterJobsResponseList){
+
+                List<String> location_list = new ArrayList<>();
+
+                pstmt2.setInt(1, jobPosterJobsResponseObj_.getJob_id());
+                ResultSet rs2 = pstmt2.executeQuery();
+
+                while(rs2.next()){
+                    location_list.add(rs2.getString(1));
+                }
+                jobPosterJobsResponseList.get(job_id_position.get(jobPosterJobsResponseObj_.getJob_id()))
+                        .setJob_location(location_list);
+
+            }
+
+
+
+            String query3 = "select skill from job_skills where job_id = ?";
+            PreparedStatement pstmt3 = con.prepareStatement(query3);
+
+            for(getJobPosterJobsResponse jobPosterJobsResponseObj_: jobPosterJobsResponseList) {
+                pstmt3.setInt(1, jobPosterJobsResponseObj_.getJob_id());
+                ResultSet rs3 = pstmt3.executeQuery();
+
+                List<String> skill_list = new ArrayList<>();
+
+                while(rs3.next()){
+                    skill_list.add(rs3.getString(1));
+                }
+                jobPosterJobsResponseList.get(job_id_position.get(jobPosterJobsResponseObj_.getJob_id()))
+                        .setJob_skills(skill_list);
+            }
+
+
+            String query5 = "select count(*) from job_applications where job_id = ?";
+            PreparedStatement pstmt5 = con.prepareStatement(query5);
+
+            for(getJobPosterJobsResponse jobPosterJobsResponseObj_: jobPosterJobsResponseList) {
+                pstmt5.setInt(1, jobPosterJobsResponseObj_.getJob_id());
+                ResultSet rs5 = pstmt5.executeQuery();
+
+                while (rs5.next()) {
+                    jobPosterJobsResponseList.get(job_id_position.get(jobPosterJobsResponseObj_.getJob_id()))
+                            .setTotal_applications(rs5.getInt(1));
+                }
+            }
+
+            con.close();
+
+            return jobPosterJobsResponseList;
+
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        return jobPosterJobsResponseList;
     }
 }
