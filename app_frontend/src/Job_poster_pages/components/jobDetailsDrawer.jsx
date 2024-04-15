@@ -3,47 +3,18 @@ import {
     Text,
     Stack,
     Tag,
-    Button,
     DrawerBody,
     DrawerHeader,
     DrawerOverlay,
     DrawerContent,
     DrawerCloseButton,
     Heading,
-    useToast,
-    Spinner
 } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react';
 
-function JobDrawer({ jobId }) {
-    const toast = useToast()
-    let [applyButton, setApplyButton] = useState("Apply")
-    let handleApply = () => {
-        setApplyButton(<Spinner />)
-        toast({
-            title: `top-right toast`,
-            position: 'top-right',
-            isClosable: true,
-            variant:'left-accent'
-        })
-    }
-    let job = {
-        "job_id": 0,
-        "job_title": "Sr. Software Engineer",
-        "job_description": "Zenskar is building new-age billing and pricing infrastructure for SaaS companies. As SaaS pricing evolves from vanilla subscription based models to more granular usage based models, billing and pricing infrastructure needs to be completely reimagined.",
-        "job_poster": "job_poster",
-        "job_vacancy": 100,
-        "job_location": "Banglore",
-        "job_salary": 1200000,
-        "job_type": "On-site",
-        "job_date_posted": "08/04/2024",
-        "job_deadline": "17/04/2024",
-        "company": [
-            "Zenskar",
-            "https://www.zenskar.com"
-        ],
-        "job_skills": ["C", "C++", "Java", "Python", "JavaScript", "React", "Node.js", "MongoDB", "SQL"]
-    }
+import { fetchJobWithId } from '../../api';
+
+function JobDrawer({ job }) {
     return (
         <>
             <DrawerOverlay />
@@ -79,14 +50,6 @@ function JobDrawer({ jobId }) {
                             <Text fontSize='2xl'>Deadline:</Text>
                             <Tag colorScheme='red'>{job.job_deadline}</Tag>
                         </Flex>
-                        <Button
-                            variant='outline'
-                            colorScheme='blue'
-                            size='lg'
-                            marginTop='10px'
-                            onClick={() =>
-                                handleApply()
-                            }>{applyButton}</Button>
                     </Stack>
                 </DrawerBody>
             </DrawerContent>

@@ -29,12 +29,14 @@ function JobApplications({ jobId, totalApplications }) {
             .then((response) => {
                 if(response.status === 401) {
                     localStorage.removeItem('token')
+                    localStorage.removeItem('username')
+                    localStorage.removeItem('userType')
                     alert('Session expired. Please login again.')
                     window.location.href = '/login'
                     return
                 }
                 if(response.status === 400) {
-                    alert('Error fetching applications')
+                    // alert('Error fetching applications')
                     return
                 }
                 if (response.status === 200) {
@@ -63,7 +65,7 @@ function JobApplications({ jobId, totalApplications }) {
                     <DrawerBody>
                         <Stack>
                             {applications.map((application) => {
-                                return <JobApplication application={application} />
+                                return <JobApplication application={application} key={application.application_id}/>
                             })}
                         </Stack>
                     </DrawerBody>

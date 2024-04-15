@@ -58,7 +58,8 @@ function JPProfileEditDrawer({ userObject }) {
             "linkedIn_url": linkedIn_url,
             "company_name": company_name,
             "position": position,
-            "gender": userObject.gender
+            "gender": userObject.gender,
+            "user_role": "job_poster"
         }
         updateUser(user, token).then((response) => {
             setIsLoading(false)

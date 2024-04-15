@@ -26,28 +26,27 @@ function ProfileButton() {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [userObject, setUserObject] = useState({});
 
-    let token = localStorage.getItem("token");
-    let username = localStorage.getItem("username");
-
-    function logoutHandle(){
+    function logoutHandle() {
         localStorage.removeItem("token");
         localStorage.removeItem("username");
         localStorage.removeItem("userType");
         window.location.href = '/';
     }
 
+    let token = localStorage.getItem("token");
+    let username = localStorage.getItem("username");
+
     useEffect(() => {
-        fetchUser(username, token).then(data => {
-            if (data === 401) {
+        fetchUser(username, token).then(response => {
+            if (response.status === 401) {
                 localStorage.removeItem("token");
                 localStorage.removeItem("username");
                 localStorage.removeItem("userType");
-                window.location.reload();
+                window.location.href = '/login';
                 return;
             }
-            localStorage.setItem('userType', data.user_role);
-            setUserObject(data);
-        
+            localStorage.setItem('userType', response.data.user_role);
+            setUserObject(response.data);
         })
     }, [])
 
@@ -63,9 +62,9 @@ function ProfileButton() {
                 </MenuButton>
             </Flex>
             <MenuList>
-                <MenuItem onClick={() => window.location.href = `./${username}/dashboard`}>Dashboard</MenuItem>
+                <MenuItem onClick={() => window.location.href = `/${username}/dashboard`}>Dashboard</MenuItem>
                 <MenuItem onClick={onOpen}>Edit profile</MenuItem>
-                <MenuItem color='red' onClick={()=>logoutHandle()}>Logout</MenuItem>
+                <MenuItem color='red' onClick={() => logoutHandle()}>Logout</MenuItem>
             </MenuList>
 
             {/* Drawer */}

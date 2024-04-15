@@ -25,28 +25,19 @@ import { postJob } from '../../api';
 function CreateJobButton() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     let [isLoading, setIsLoading] = useState(false)
-    let [job, setJob] = useState({
-        "job_id": null,
-        "job_title": "job_title",
-        "job_description": "job_description",
-        "job_poster": "job_poster",
-        "job_vacancy": "job_vacancy",
-        "job_location": [],
-        "job_salary": "job_salary",
-        "job_type": "job_type",
-        "job_date_posted": "job_date_posted",
-        "job_deadline": "dd/mm/yyyy",
-        "job_skills": [],
-        "company": [
-            "company_name",
-            "relevant_link"
-        ]
-    })
 
+    let [job_title, setJobTitle] = useState('')
+    let [jobDescription, setJobDescription] = useState('')
+    let [jobVacancy, setJobVacancy] = useState('')
+    let [jobLocation, setJobLocation] = useState('')
+    let [jobSalary, setJobSalary] = useState('')
+    let [jobType, setJobType] = useState('')
+    let [jobDeadline, setJobDeadline] = useState('')
+    let [jobSkills, setJobSkills] = useState('')
     let [companyName, setCompanyName] = useState('')
     let [relevantLink, setRelevantLink] = useState('')  
 
-    function validateJob() {
+    function validateJob(job) {
         if(job.job_title === '' || job.job_description === '' || job.job_vacancy === '' || job.job_location.length === 0 || job.job_salary === '' || job.job_type === '' || job.job_deadline === 'dd/mm/yyyy' || job.job_skills.length === 0 || companyName === '' || relevantLink === '') {
             alert('All fields are required')
             return false
@@ -58,14 +49,31 @@ function CreateJobButton() {
         setIsLoading(true)
         let date = new Date()
         let token = localStorage.getItem('token')
-        setJob({...job, job_poster: localStorage.getItem('username')})
-        setJob({...job, job_date_posted: `${date.getFullYear()}/${date.getMonth()}/${date.getDate()}`})
-        setJob({...job, company: [companyName, relevantLink]})
+        let username = localStorage.getItem('username')
+        let job = {
+            job_id: null,
+            job_poster: username,
+            job_title: job_title,
+            job_description: jobDescription,
+            job_vacancy: jobVacancy,
+            job_location: jobLocation,
+            job_salary: jobSalary,
+            job_type: jobType,
+            job_deadline: jobDeadline,
+            job_skills: jobSkills,
+            company:[
+                companyName,
+                relevantLink
+            ],
+            job_date_posted: date.toISOString().slice(0, 10)
+        }
 
-        if(!validateJob()){
+        if(!validateJob(job)){
             setIsLoading(false)
             return
         }
+
+        console.log(job)
 
         postJob(job, token).then((response) => {
             if(response.status === 401) {
@@ -100,11 +108,11 @@ function CreateJobButton() {
                         <Stack gap={5}>
                             <FormControl>
                                 <FormLabel>Job Title</FormLabel>
-                                <Input type='text' onChange={(e) => setJob({...job, job_title: e.target.value})}/>
+                                <Input type='text' onChange={(e) => setJobTitle(e.target.value)}/>
                             </FormControl>
                             <FormControl>
                                 <FormLabel>Description</FormLabel>
-                                <Textarea placeholder='Explain more about the job' onChange={(e) => setJob({...job, job_description: e.target.value})}/>
+                                <Textarea placeholder='Explain more about the job' onChange={(e) => setJobDescription(e.target.value)}/>
                             </FormControl>
                             <FormControl>
                                 <FormLabel>Company name</FormLabel>
@@ -112,23 +120,23 @@ function CreateJobButton() {
                             </FormControl>
                             <FormControl>
                                 <FormLabel>Vacancy</FormLabel>
-                                <Input type='number' onChange={(e) => setJob({...job, job_vacancy: e.target.value})}/>
+                                <Input type='number' onChange={(e) => setJobVacancy(e.target.value)}/>
                             </FormControl>
                             <FormControl>
                                 <FormLabel>Skills required (Keep comma seperated)</FormLabel>
-                                <Input type='text' onChange={(e) => setJob({...job, job_skills: (e.target.value).split(',').map((item) => item.trim())})}/>
+                                <Input type='text' onChange={(e) => setJobSkills(e.target.value.split(',').map((item) => item.trim()))}/>
                             </FormControl>
                             <FormControl>
                                 <FormLabel>Locations (Keep comma seperated)</FormLabel>
-                                <Input type='text' onChange={(e) => setJob({...job, job_location: (e.target.value).split(',').map((item) => item.trim())})}/>
+                                <Input type='text' onChange={(e) => setJobLocation(e.target.value.split(',').map((item) => item.trim()))}/>
                             </FormControl>
                             <FormControl>
                                 <FormLabel>Salary(PA)</FormLabel>
-                                <Input type='number' onChange={(e) => setJob({...job, job_salary: e.target.value})}/>
+                                <Input type='number' onChange={(e) => setJobSalary(e.target.value)}/>
                             </FormControl>
                             <FormControl>
                                 <FormLabel>Job type</FormLabel>
-                                <Select placeholder='Select option' onChange={(e) => setJob({...job, job_type: e.target.value})}>
+                                <Select placeholder='Select option' onChange={(e) => setJobType(e.target.value)}>
                                     <option value='option1'>Remote</option>
                                     <option value='option2'>Onsite</option>
                                     <option value='option3'>Hybrid</option>
@@ -136,7 +144,7 @@ function CreateJobButton() {
                             </FormControl>
                             <FormControl>
                                 <FormLabel>Application Deadline</FormLabel>
-                                <Input type='date' onChange={(e) => setJob({...job, job_deadline: e.target.value})}/>
+                                <Input type='date' onChange={(e) => setJobDeadline(e.target.value)}/>
                             </FormControl>
                             <FormControl>
                                 <FormLabel>Relevant link</FormLabel>

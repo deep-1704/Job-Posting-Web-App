@@ -43,11 +43,11 @@ function Profile() {
     useEffect(()=>{
         let token = localStorage.getItem('token')
         let username = localStorage.getItem('username')
-
-        fetchUser(token, username).then((response) => {
+        fetchUser(username, token).then((response) => {
             if(response.status === 401){
                 localStorage.removeItem('token')
                 localStorage.removeItem('username')
+                localStorage.removeItem('userType')
                 window.location.href = '/login'
                 return
             }
@@ -55,10 +55,9 @@ function Profile() {
                 alert('User not found')
                 return
             }
-
             setUser(response.data)
         })
-    })
+    }, [])
     return (
         <Stack paddingTop='40px' paddingLeft='5%' paddingRight='5%' paddingBottom='40px' gap={7}>
             <Stack gap={2}>
