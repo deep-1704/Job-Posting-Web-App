@@ -20,9 +20,35 @@ import companyIcon from '../assets/images/companyLogo.svg'
 import DeleteJob from './deleteButton'
 import JobApplications from './applicationsButton'
 
+import { fetchJobWithId } from '../../api'
+
 function JobPosterJobs({ job }) {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const btnRef = React.useRef()
+
+    let [jobObj, setJobObj] = React.useState({
+        "job_id": "job_id",
+        "job_title": "job_title",
+        "company": ["company_name", "company_website"],
+        "job_description": "job_description",
+        "job_skills": ["skill1", "skill2"],
+        "job_vacancy": 0,
+        "job_location": "job_location",
+        "job_salary": 0,
+        "job_type": "job_type",
+        "job_date_posted": "job_date_posted",
+        "job_deadline": "job_deadline"
+    });
+    React.useEffect(()=>{
+        let token = localStorage.getItem("token");
+        fetchJobWithId(job.job_id, token).then((response) => {
+            if(response.status !== 200){
+                alert("Error fetching job");
+                return;
+            }
+            setJobObj(response.job);
+        })
+    }, [])
     return (
         <>
             <Card backgroundColor='#bfdbdd'>
@@ -66,7 +92,7 @@ function JobPosterJobs({ job }) {
                 onClose={onClose}
                 finalFocusRef={btnRef}
                 size='md'
-            ><JobDrawer jobId={job.jobId} /></Drawer>
+            ><JobDrawer job={jobObj} /></Drawer>
         </>
     );
 }

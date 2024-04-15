@@ -9,9 +9,9 @@ import { fetchRecruiterJobs } from '../api';
 
 function JobPosterDashboard() {
     let [jobs, setJobs] = useState([]);
-
+    let token = localStorage.getItem('token')
     useEffect(()=>{
-        fetchRecruiterJobs().then((response) => {
+        fetchRecruiterJobs(token).then((response) => {
             if (response.status === 401) {
                 localStorage.removeItem('token')
                 alert('Session expired. Please login again.')

@@ -37,6 +37,14 @@ function Signup() {
             alert("Please enter a valid e-mail address");
             return false;
         }
+        if(userInfo.gender === "option1"){
+            setUserInfo({...userInfo, gender: 'Male'})
+        }else if(userInfo.gender === "option2"){
+            setUserInfo({...userInfo, gender: 'Female'})
+        }else if(userInfo.gender === "option3"){
+            setUserInfo({...userInfo, gender: 'Transgender'})
+        }
+        else setUserInfo({...userInfo, gender: 'Others'})
         return true;
     }
 
@@ -57,7 +65,8 @@ function Signup() {
             localStorage.setItem('username', userInfo.username)
             localStorage.setItem('userType', user_role)
             alert('Registered successfully');
-            window.location.href = `/${userInfo.username}/dashboard`;
+            window.location.reload();
+            // window.location.href = `/${userInfo.username}/dashboard`;
         });
         setIsLoading(false);
     }

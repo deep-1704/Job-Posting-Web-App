@@ -15,9 +15,10 @@ import { deleteJob } from '../../api'
 function DeleteJob({jobId}) {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = React.useRef()
+    let token = localStorage.getItem('token')
 
     function handleDeleteJob() {
-        deleteJob(jobId).then((response) =>{
+        deleteJob(jobId, token).then((response) =>{
             if(response.status === 401){
                 localStorage.removeItem('token')
                 alert('Session expired. Please login again.')

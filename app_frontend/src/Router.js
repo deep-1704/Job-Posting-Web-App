@@ -8,7 +8,7 @@ import JobPosterDashboard from "./Job_poster_pages/main";
 
 
 function App() {
-  let userType = localStorage.getItem("userType");
+  // let userType = localStorage.getItem("userType");
   return (
     <Routes>
       <Route path="/" element={<Navbar />}>
@@ -16,7 +16,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup/:user_role" element={<Signup />} />
         <Route path="/:username/dashboard" element={
-          userType === "job_seeker" ? <JobSeekerDashboard /> : <JobPosterDashboard />
+          localStorage.getItem("userType") === "job_seeker" ? <JobSeekerDashboard /> : <JobPosterDashboard />
         } />
       </Route>
     </Routes>

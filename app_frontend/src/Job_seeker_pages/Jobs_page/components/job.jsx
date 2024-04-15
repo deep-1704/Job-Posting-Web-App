@@ -18,9 +18,46 @@ import React from 'react'
 import JobDrawer from './jobDetailsDrawer'
 import companyIcon from '../../assets/images/companyLogo.svg'
 
+import { fetchJobWithId } from '../../../api'
+
 function Job({ job }) {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const btnRef = React.useRef()
+
+    let [myJob, setMyJob] = React.useState({
+        "job_title": "job_title",
+        "company": ["company_name", "company_website"],
+        "job_description": "job_description",
+        "job_skills": ["skill1", "skill2"],
+        "job_vacancy": 0,
+        "job_location": "job_location",
+        "job_salary": 0,
+        "job_type": "job_type",
+        "job_date_posted": "job_date_posted",
+        "job_deadline": "job_deadline"
+    })
+
+    React.useEffect(() => {
+        let token = localStorage.getItem('token')
+        fetchJobWithId(job.job_id, token).then((response) => {
+            if (response.status === 200) {
+                setMyJob(response.job)
+                return;
+            }
+            if (response.status === 401) {
+                localStorage.removeItem('token')
+                alert('Session expired. Please login again.')
+                window.location.href = '/login'
+                return;
+            }
+            if (response.status === 404) {
+                alert('Job not found')
+                return;
+            }
+        })
+    }, [])
+
+    // console.log(job);
     return (
         <>
             <Card backgroundColor='#bfdbdd'>
@@ -61,7 +98,7 @@ function Job({ job }) {
                 onClose={onClose}
                 finalFocusRef={btnRef}
                 size='md'
-            ><JobDrawer jobId={job.jobId} /></Drawer>
+            ><JobDrawer job={myJob} /></Drawer>
         </>
     );
 }

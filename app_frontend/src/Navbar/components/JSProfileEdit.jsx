@@ -75,8 +75,9 @@ function JSProfileEditDrawer({ userObject }) {
         
         updateUser(user, token).then((response) => {
             setIsLoading(false)
-            if (response === 200) {
+            if (response.status === 200) {
                 alert('Profile updated successfully')
+                window.location.reload()
             } else {
                 alert('Failed to update profile')
             }

@@ -27,31 +27,33 @@ function Login() {
     let [show, setShow] = useState(false);
     let handleClick = () => setShow(!show);
 
-    function validateData(userInfo){
-        if(userInfo.username === '' || userInfo.password === ''){
+    function validateData(userInfo) {
+        if (userInfo.username === '' || userInfo.password === '') {
             return false;
         }
         return true;
     }
 
-    function handleLogin(){
+    async function handleLogin() {
         setIsLoading(true);
-        if(!validateData(userInfo)){
+        if (!validateData(userInfo)) {
             setIsLoading(false);
             alert('Please fill all the fields');
             return;
         }
 
-        loginUser(userInfo).then((response) => {
-            if(response.status === 200){
-                localStorage.setItem('token', response.token);
-                localStorage.setItem('username', userInfo.username);
-                window.location.href = `/${userInfo.username}/dashboard`;
-            }else{
-                setIsLoading(false);
-                alert('Invalid username or password');
-            }
-        });
+        let response = await loginUser(userInfo)
+
+        if (response.status === 200) {
+            localStorage.setItem('token', response.token);
+            localStorage.setItem('username', userInfo.username);
+            alert('Login successful');
+            setIsLoading(false);
+            window.location.reload();
+        } else {
+            setIsLoading(false);
+            alert('Invalid username or password');
+        }
     }
     return (
         <div className={styles.loginContainer}>

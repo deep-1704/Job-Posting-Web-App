@@ -39,7 +39,7 @@ function JobApplication({ application }) {
             <Stack spacing={3} p={4} borderWidth='1px' borderRadius='lg' backgroundColor='#e6eaef'>
                 <Stack>
                     <Heading size='lg' color='#003a37'>{application.full_name}</Heading>
-                    <Link href='https://chakra-ui.com' isExternal>
+                    <Link href='#' isExternal>
                         {application.username} <ExternalLinkIcon mx='2px' />
                     </Link>
                 </Stack>

@@ -9,7 +9,8 @@ function Jobs() {
     let [jobs, setJobs] =  useState(null)
 
     useEffect(() => {
-        fetchJobSeekerJobs().then((response) => {
+        let token = localStorage.getItem('token')
+        fetchJobSeekerJobs(token).then((response) => {
             if(response.status === 401){
                 alert('Session expired. Please login again.')
                 window.location.href = '/login'
@@ -20,7 +21,7 @@ function Jobs() {
             }
             setJobs(response.jobs)
         })
-    })
+    }, [])
     
     if(jobs === null) return (<></>)
 
