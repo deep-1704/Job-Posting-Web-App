@@ -3,20 +3,38 @@ package com.DBMSProject.JobPostingWebApp.DAO;
 import com.DBMSProject.JobPostingWebApp.Models.getJobSeekerJobsResponse;
 import com.DBMSProject.JobPostingWebApp.Models.getJobSeekerResponse;
 import com.DBMSProject.JobPostingWebApp.Models.updateJobSeekerProfileRequest;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class JobSeekerDAOImpl implements JobSeekerDAO{
+
+    private final String user;
+    private final String password;
+    private final String url;
+
+    public JobSeekerDAOImpl() {
+        try {
+            Resource resource = new ClassPathResource("/application.properties");
+            Properties properties = PropertiesLoaderUtils.loadProperties(resource);
+
+            user = properties.getProperty("DB_USERNAME");
+            password = properties.getProperty("DB_PASSWORD");
+            url = properties.getProperty("DB_URL");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     public void updateJobSeekerProfile(updateJobSeekerProfileRequest updateJobSeekerProfileRequest, String username) {
@@ -35,9 +53,6 @@ public class JobSeekerDAOImpl implements JobSeekerDAO{
         String major = updateJobSeekerProfileRequest.getMajor();
 
         try {
-            String url = "jdbc:oracle:thin:@localhost:1521:orcl";
-            String user = "c##jobpostingwebapp";
-            String password = "jobpostingwebapp";
 
             Connection con = DriverManager.getConnection(url, user, password);
             System.out.println("connected to db!!");
@@ -95,9 +110,6 @@ public class JobSeekerDAOImpl implements JobSeekerDAO{
         getJobSeekerResponse JobSeekerResponseObj = null;
 
         try {
-            String url = "jdbc:oracle:thin:@localhost:1521:orcl";
-            String user = "c##jobpostingwebapp";
-            String password = "jobpostingwebapp";
 
             Connection con = DriverManager.getConnection(url, user, password);
             System.out.println("connected to db!!");
@@ -206,9 +218,6 @@ public class JobSeekerDAOImpl implements JobSeekerDAO{
         List<getJobSeekerJobsResponse> jobSeekerJobsList = new ArrayList<>();
 
         try {
-            String url = "jdbc:oracle:thin:@localhost:1521:orcl";
-            String user = "c##jobpostingwebapp";
-            String password = "jobpostingwebapp";
 
             Connection con = DriverManager.getConnection(url, user, password);
             System.out.println("connected to db!!");

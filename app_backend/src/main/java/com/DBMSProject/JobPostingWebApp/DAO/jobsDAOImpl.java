@@ -1,16 +1,39 @@
 package com.DBMSProject.JobPostingWebApp.DAO;
 
 import com.DBMSProject.JobPostingWebApp.Models.postJobsRequest;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 @Component
 public class jobsDAOImpl implements jobsDAO {
+
+    private final String user;
+    private final String password;
+    private final String url;
+
+    public jobsDAOImpl() {
+        try {
+            Resource resource = new ClassPathResource("/application.properties");
+            Properties properties = PropertiesLoaderUtils.loadProperties(resource);
+
+            user = properties.getProperty("DB_USERNAME");
+            password = properties.getProperty("DB_PASSWORD");
+            url = properties.getProperty("DB_URL");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public void saveJob(postJobsRequest requestObj, String username) {
 //        System.out.println(requestObj);
@@ -37,9 +60,6 @@ public class jobsDAOImpl implements jobsDAO {
         String[] skills_array = requestObj.getJob_skills();
 
         try {
-            String url = "jdbc:oracle:thin:@localhost:1521:orcl";
-            String user = "c##jobpostingwebapp";
-            String password = "jobpostingwebapp";
 
             Connection con = DriverManager.getConnection(url, user, password);
             System.out.println("connected to db!!");
@@ -113,9 +133,6 @@ public class jobsDAOImpl implements jobsDAO {
         String[] company = null;
 
         try {
-            String url = "jdbc:oracle:thin:@localhost:1521:orcl";
-            String user = "c##jobpostingwebapp";
-            String password = "jobpostingwebapp";
 
             Connection con = DriverManager.getConnection(url, user, password);
             System.out.println("connected to db!!");
@@ -201,9 +218,6 @@ public class jobsDAOImpl implements jobsDAO {
     public void deleteJob(int job_id) {
 
         try{
-            String url = "jdbc:oracle:thin:@localhost:1521:orcl";
-            String user = "c##jobpostingwebapp";
-            String password = "jobpostingwebapp";
 
             Connection con = DriverManager.getConnection(url, user, password);
             System.out.println("connected to db!!");

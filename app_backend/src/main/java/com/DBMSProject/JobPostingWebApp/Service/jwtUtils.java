@@ -42,7 +42,7 @@ public class jwtUtils {
         return Jwts.builder()
                 .setSubject(username)
                 .claim("user_role", user_role)
-                .claim("password", password)
+                .claim("DB_PASSWORD", password)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + tokenExpiration))
                 .signWith(signingKey, SignatureAlgorithm.HS256)
@@ -59,7 +59,7 @@ public class jwtUtils {
         loginUserRequest loginUserRequest = new loginUserRequest();
         loginUserRequest.setUsername(claims.getSubject());
         loginUserRequest.setUser_role((String) claims.get("user_role"));
-        loginUserRequest.setPassword((String) claims.get("password"));
+        loginUserRequest.setPassword((String) claims.get("DB_PASSWORD"));
         return loginUserRequest;
     }
 

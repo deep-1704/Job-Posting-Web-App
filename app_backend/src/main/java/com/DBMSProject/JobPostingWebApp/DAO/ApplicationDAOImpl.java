@@ -3,17 +3,41 @@ package com.DBMSProject.JobPostingWebApp.DAO;
 import com.DBMSProject.JobPostingWebApp.Models.getApplicationByJobId;
 import com.DBMSProject.JobPostingWebApp.Models.getApplicationByUsernameResponse;
 import com.DBMSProject.JobPostingWebApp.Models.postJobApplication;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 @Component
 public class ApplicationDAOImpl implements ApplicationDAO {
+
+    private final String user;
+    private final String password;
+    private final String url;
+
+    public ApplicationDAOImpl() {
+        try {
+            Resource resource = new ClassPathResource("/application.properties");
+            Properties properties = PropertiesLoaderUtils.loadProperties(resource);
+
+            user = properties.getProperty("DB_USERNAME");
+            password = properties.getProperty("DB_PASSWORD");
+            url = properties.getProperty("DB_URL");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
     public String saveApplication(postJobApplication postJobApplicationObj,String username){
         Date application_date=postJobApplicationObj.getApplication_date();
         int job_id=postJobApplicationObj.getJob_id();
@@ -23,9 +47,6 @@ public class ApplicationDAOImpl implements ApplicationDAO {
         String application_date_string=sdf.format(application_date);
 
         try{
-            String url = "jdbc:oracle:thin:@localhost:1521:orcl";
-            String user = "c##jobpostingwebapp";
-            String password = "jobpostingwebapp";
 
             Connection con = DriverManager.getConnection(url, user, password);
             System.out.println("connected to db!!");
@@ -54,9 +75,6 @@ public class ApplicationDAOImpl implements ApplicationDAO {
     public postJobApplication getApplication(int job_id,String username) {
         postJobApplication application=null;
         try{
-            String url = "jdbc:oracle:thin:@localhost:1521:orcl";
-            String user = "c##jobpostingwebapp";
-            String password = "jobpostingwebapp";
 
             Connection con = DriverManager.getConnection(url, user, password);
             System.out.println("connected to db!!");
@@ -84,9 +102,6 @@ public class ApplicationDAOImpl implements ApplicationDAO {
         List<getApplicationByJobId> applicationList=null;
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
         try{
-            String url = "jdbc:oracle:thin:@localhost:1521:orcl";
-            String user = "c##jobpostingwebapp";
-            String password = "jobpostingwebapp";
 
             Connection con = DriverManager.getConnection(url, user, password);
             System.out.println("connected to db!!");
@@ -145,9 +160,6 @@ public class ApplicationDAOImpl implements ApplicationDAO {
     @Override
     public void deleteApplication(int application_id) {
         try{
-            String url = "jdbc:oracle:thin:@localhost:1521:orcl";
-            String user = "c##jobpostingwebapp";
-            String password = "jobpostingwebapp";
 
             Connection con = DriverManager.getConnection(url, user, password);
             System.out.println("connected to db!!");
@@ -166,9 +178,6 @@ public class ApplicationDAOImpl implements ApplicationDAO {
         List<getApplicationByUsernameResponse> applicationList=null;
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
         try{
-            String url = "jdbc:oracle:thin:@localhost:1521:orcl";
-            String user = "c##jobpostingwebapp";
-            String password = "jobpostingwebapp";
 
             Connection con = DriverManager.getConnection(url, user, password);
             System.out.println("connected to db!!");
@@ -223,9 +232,6 @@ public class ApplicationDAOImpl implements ApplicationDAO {
     @Override
     public void updateApplicationStatus(int application_id, String application_status) {
         try{
-            String url = "jdbc:oracle:thin:@localhost:1521:orcl";
-            String user = "c##jobpostingwebapp";
-            String password = "jobpostingwebapp";
 
             Connection con = DriverManager.getConnection(url, user, password);
             System.out.println("connected to db!!");

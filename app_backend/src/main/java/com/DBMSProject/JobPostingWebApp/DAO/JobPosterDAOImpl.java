@@ -3,9 +3,12 @@ package com.DBMSProject.JobPostingWebApp.DAO;
 import com.DBMSProject.JobPostingWebApp.Models.getJobPosterJobsResponse;
 import com.DBMSProject.JobPostingWebApp.Models.getJobPosterResponse;
 import com.DBMSProject.JobPostingWebApp.Models.updateJobPosterProfileRequest;
-import com.DBMSProject.JobPostingWebApp.Models.users;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -15,6 +18,23 @@ import java.util.*;
 
 @Component
 public class JobPosterDAOImpl implements JobPosterDAO {
+
+    private final String user;
+    private final String password;
+    private final String url;
+
+    public JobPosterDAOImpl() {
+        try {
+            Resource resource = new ClassPathResource("/application.properties");
+            Properties properties = PropertiesLoaderUtils.loadProperties(resource);
+
+            user = properties.getProperty("DB_USERNAME");
+            password = properties.getProperty("DB_PASSWORD");
+            url = properties.getProperty("DB_URL");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 //    List<users> usersList = new ArrayList<>();
 //
@@ -41,10 +61,6 @@ public class JobPosterDAOImpl implements JobPosterDAO {
         String CompanyName = updateJobPosterProfileRequestObj.getCompany_name();
         String Position = updateJobPosterProfileRequestObj.getPosition();
         String LinkedInUrl = updateJobPosterProfileRequestObj.getLinkedIn_url();
-
-        String url = "jdbc:oracle:thin:@localhost:1521:orcl";
-        String user = "c##jobpostingwebapp";
-        String password = "jobpostingwebapp";
 
         try{
             Connection con = DriverManager.getConnection(url, user, password);
@@ -83,9 +99,6 @@ public class JobPosterDAOImpl implements JobPosterDAO {
         getJobPosterResponse JobPosterResponseObj = null;
 
         try{
-            String url = "jdbc:oracle:thin:@localhost:1521:orcl";
-            String user = "c##jobpostingwebapp";
-            String password = "jobpostingwebapp";
 
             Connection con = DriverManager.getConnection(url, user, password);
             System.out.println("connected to db!!");
@@ -172,9 +185,6 @@ public class JobPosterDAOImpl implements JobPosterDAO {
         Map<Integer, Integer> job_id_position = new HashMap<>();
 
         try {
-            String url = "jdbc:oracle:thin:@localhost:1521:orcl";
-            String user = "c##jobpostingwebapp";
-            String password = "jobpostingwebapp";
 
             Connection con = DriverManager.getConnection(url, user, password);
             System.out.println("connected to db!!");

@@ -1,16 +1,34 @@
 package com.DBMSProject.JobPostingWebApp.DAO;
 
 import com.DBMSProject.JobPostingWebApp.Models.users;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.sql.*;
+import java.util.Properties;
 
 @Component
 public class userDAOImpl implements userDAO {
 
-    String url = "jdbc:oracle:thin:@localhost:1521:orcl";
-    String user = "c##jobpostingwebapp";
-    String password = "jobpostingwebapp";
+    private final String user;
+    private final String password;
+    private final String url;
+
+    public userDAOImpl() {
+        try {
+            Resource resource = new ClassPathResource("/application.properties");
+            Properties properties = PropertiesLoaderUtils.loadProperties(resource);
+
+            user = properties.getProperty("DB_USERNAME");
+            password = properties.getProperty("DB_PASSWORD");
+            url = properties.getProperty("DB_URL");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     public users getUser(String username) {
@@ -28,7 +46,7 @@ public class userDAOImpl implements userDAO {
 
             while (rs.next()) {
                 String userName = rs.getString("username");
-                String passWord = rs.getString("password");
+                String passWord = rs.getString("DB_PASSWORD");
                 String fullName = rs.getString("full_name");
                 String email = rs.getString("email");
                 String userRole = rs.getString("user_role");
