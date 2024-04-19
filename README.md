@@ -50,7 +50,7 @@ To run this project, you will need to add the following environment variables to
 
 #### Before you start:
 
-- Ensure Node.js, MongoDB, and npm/yarn are installed.
+- Ensure Java, Oracle21c, and npm are installed.
 
 #### Steps:
 
