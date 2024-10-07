@@ -27,7 +27,7 @@ function JobApplications({ jobId, totalApplications }) {
         let token = localStorage.getItem('token')
         fetchApplicationsWithJobId(jobId, token)
             .then((response) => {
-                if(response.status === 401) {
+                if (response.status === 401) {
                     localStorage.removeItem('token')
                     localStorage.removeItem('username')
                     localStorage.removeItem('userType')
@@ -35,7 +35,7 @@ function JobApplications({ jobId, totalApplications }) {
                     window.location.href = '/login'
                     return
                 }
-                if(response.status === 400) {
+                if (response.status === 400) {
                     // alert('Error fetching applications')
                     return
                 }
@@ -47,7 +47,7 @@ function JobApplications({ jobId, totalApplications }) {
 
     return (
         <>
-            <Button ref={btnRef} onClick={onOpen} >Applications: {totalApplications}</Button>
+            <Button ref={btnRef} onClick={onOpen} >Applications {totalApplications}</Button>
             <Drawer
                 isOpen={isOpen}
                 placement='bottom'
@@ -65,7 +65,7 @@ function JobApplications({ jobId, totalApplications }) {
                     <DrawerBody>
                         <Stack>
                             {applications.map((application) => {
-                                return <JobApplication application={application} key={application.application_id}/>
+                                return <JobApplication application={application} key={application.application_id} />
                             })}
                         </Stack>
                     </DrawerBody>

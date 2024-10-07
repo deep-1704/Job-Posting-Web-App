@@ -46,7 +46,7 @@ public class userDAOImpl implements userDAO {
 
             while (rs.next()) {
                 String userName = rs.getString("username");
-                String passWord = rs.getString("DB_PASSWORD");
+                String passWord = rs.getString("password");
                 String fullName = rs.getString("full_name");
                 String email = rs.getString("email");
                 String userRole = rs.getString("user_role");

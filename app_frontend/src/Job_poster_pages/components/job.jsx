@@ -33,16 +33,16 @@ function JobPosterJobs({ job }) {
         "job_description": "job_description",
         "job_skills": ["skill1", "skill2"],
         "job_vacancy": 0,
-        "job_location": "job_location",
+        "job_location": ["job_location"],
         "job_salary": 0,
         "job_type": "job_type",
         "job_date_posted": "job_date_posted",
         "job_deadline": "job_deadline"
     });
-    React.useEffect(()=>{
+    React.useEffect(() => {
         let token = localStorage.getItem("token");
         fetchJobWithId(job.job_id, token).then((response) => {
-            if(response.status !== 200){
+            if (response.status !== 200) {
                 alert("Error fetching job");
                 return;
             }
@@ -56,10 +56,10 @@ function JobPosterJobs({ job }) {
                     <Flex alignItems='center' gap='3'>
                         <Avatar size='lg' name='Company' src={companyIcon} />
                         <Stack gap='0'>
-                            <Text fontSize='3xl'>{job.job_title}</Text>
-                            <Link href={job.company[1]} isExternal>
+                            <Text fontSize='3xl'>{jobObj.job_title}</Text>
+                            <Link href={jobObj.company[1]} isExternal>
                                 <Flex alignItems='center'>
-                                    <Text fontSize='lg'>{job.company[0]}</Text>
+                                    <Text fontSize='lg'>{jobObj.company[0]}</Text>
                                     <ExternalLinkIcon mx='2px' />
                                 </Flex>
                             </Link>
@@ -72,14 +72,14 @@ function JobPosterJobs({ job }) {
                 </CardHeader>
                 <CardBody>
                     <Flex gap='3'>
-                        {job.job_location.map((location) => {
+                        {jobObj.job_location.map((location) => {
                             return <Tag key={location}>{location}</Tag>
                         })}
-                        <Tag colorScheme='green'>{job.job_salary / 100000}LPA</Tag>
-                        <Tag>{job.job_type}</Tag>
-                        <Tag colorScheme='red'>Deadline: {job.job_deadline}</Tag>
+                        <Tag colorScheme='green'>{jobObj.job_salary / 100000}LPA</Tag>
+                        <Tag>{jobObj.job_type}</Tag>
+                        <Tag colorScheme='red'>Deadline: {jobObj.job_deadline}</Tag>
                         <Spacer />
-                        <JobApplications jobId={job.job_id} totalApplications={job.total_applications} />
+                        <JobApplications jobId={job.job_id} totalApplications={jobObj.total_applications} />
                         <DeleteJob jobId={job.job_id} />
                     </Flex>
                 </CardBody>
